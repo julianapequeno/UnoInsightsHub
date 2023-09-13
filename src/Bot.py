@@ -45,18 +45,24 @@ class Bot:
         if(card[0] == 'X'): # BLOQUEIO
             print(player.get_name()," bloqueou o próximo jogador")
             self.index_who_is_playing = card_action(self.index_who_is_playing)
-       # elif(card[0] == 'R'): # REVERSO
-         #   self.players = card_action(self.players)
+        elif(card[0] == 'R'): # REVERSO
+            print(player.get_name()," jogou um reverse")
+            card_action(self.players.vetor)
+          #  for i in range(0, len(self.players.vetor)):
+              #  print(self.players.get_player_by_index(i).get_name())
         elif(card[0] == '+' or card[0] == 'W'): #SOMA DOIS ou QUATRO
             print(player.get_name()," jogou um puxa dois ou puxa quatro")
             for new_card in card_action():
                 self.players.get_player_by_index(self.index_who_is_playing+1).get_new_card(new_card)
                 print(self.players.get_player_by_index(self.index_who_is_playing+1).get_name()," está agora com ",len(self.players.get_player_by_index(self.index_who_is_playing+1).get_cards()))
-       # elif(card[0] == 'C'): # ESCOLHA A COR
-         #   self.currently_card = self.uno.uno('0',card_action())
+        elif(card[0] == 'C'): # ESCOLHA A COR
+            print(player.get_name()," jogou um change color")
+            new_color = card_action()
+            card = self.uno.uno(card[0],new_color[0])
+            print("A card coringa ",card)
 
     def deck_is_null(self):
-        if self.uno.cards == 0:
+        if len(self.uno.cards) == 0:
             return True
         else:
             return False
@@ -88,9 +94,9 @@ class Bot:
                 print("UNO!")
                 return "UNO"
         else:
+            print("REABASTECENDO O DECK")
             self.uno.refuel_deck()
         return ""
-
 
     def possible_throws(self,player): #retorna a lista de possíveis jogadas
         possible_throws = []
@@ -103,7 +109,6 @@ class Bot:
         if (card[1] == self.currently_card[1]) or (card[0] == self.currently_card[0]):
             return True
         return False
-    
 
     def rodada(self):
         self.index_who_is_playing = 0
@@ -111,7 +116,8 @@ class Bot:
         self.initialize_players() #inicializa os jogadores com suas cartas
         self.currently_card =  self.draw_a_card_from_deck()#initial card
         while(True):
-           # print("ON THE TABLE: ", self.currently_card)
+            print("TEMOS ",str(len(self.uno.cards))," cartas ativas")
+            print("ON THE TABLE: ", self.currently_card)
             self.who_is_currently_playing = self.players.get_player_by_index(self.index_who_is_playing)
             
             print(self.who_is_currently_playing.get_name()," is playing right now")

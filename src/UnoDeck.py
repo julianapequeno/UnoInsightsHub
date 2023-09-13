@@ -1,6 +1,8 @@
 import random 
 import collections
 
+from VetorCircular import VetorCircular
+
 class UnoDeck:
 
   uno = collections.namedtuple('Card',['rank','color'])
@@ -24,6 +26,7 @@ class UnoDeck:
   def discart_a_card(self,card):
     #adiciona a nova carta à pilha de descarte
     self.discart_pile.append(card)
+    print(len(self.discart_pile))
   
   def take_new_card_from_deck(self): #to draw a card #puxar da pilha
     new_card = random.sample(self.cards,1)
@@ -37,6 +40,7 @@ class UnoDeck:
     pass
 
   def refuel_deck(self): #reabastecer com a pilha morta
+    print(len(self.discart_pile)," is like a haha")
     self.cards = self.discart_pile
     first_element_of_new_pile = self.cards.pop() # apaga o último, que ficará na pilha morta
     self.dicart_pile.clear()
@@ -47,7 +51,7 @@ class UnoDeck:
     return index+1 #pula um player
   
   def reverse_card(self,lista):
-    return lista.inverter()
+    lista.reverse()
 
   def add_two_cards(self):
     if len(self.cards) < 2:

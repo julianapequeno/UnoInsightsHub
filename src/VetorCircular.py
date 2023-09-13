@@ -25,12 +25,11 @@ class VetorCircular:
         else:
             print("O vetor está vazio. Adicione elementos antes de remover.")
 
-    def inverter(self):
-        self.vetor[:] = self.vetor[::-1]
-        return self.vetor
-
     def __str__(self):
         return str(self.vetor)
     
     def get_player_by_index(self, pos):
         return self.vetor[pos % self.tamanho]
+    
+    def set_new_vetor(self, vetor):
+        self.vetor = vetor
