@@ -35,33 +35,42 @@ class Bot:
     def initialize_players(self):
         self.players = self.players_initialization_with_random_cards() #a ordem de jogo está na lista, realize swaps quando as cartas alterarem!!
 
+    def player_throw_card_action(self,player,card):
+        player.throw_card(card) #player joga a carta e essa é excluida de sua mão
+        self.add_to_cards_main_pile(card) # a carta é adicionada a pilha de descarte
+        self.currently_card = card # a carta de cima da pilha é a carta jogada agora
+       
+
+    def deck_is_null(self):
+        if self.uno.cards == 0:
+            return True
+        else:
+            return False
 
     def start_player_turn(self,player):
-        self.whoIsPlaying = player
-        #guarda em uma lista todas as possibilidades de jogadas, cartas
-        list_of_possible_throws = self.possible_throws(player)
+        if not self.deck_is_null():
+            #guarda em uma lista todas as possibilidades de jogadas, cartas
+            list_of_possible_throws = self.possible_throws(player)
+            if(len(list_of_possible_throws) == 0): #user takes another card
+                new_card = self.uno.take_new_card_from_deck()
+                player.get_new_card(new_card)
+                if(self.card_can_be_throw(new_card)):
+                    self.player_throw_card_action(player,new_card)
+            else:  
+                aleatory_card = random.sample(list_of_possible_throws,1) #pega uma aleatória entre as possíveis
+                self.player_throw_card_action(player,aleatory_card[0])
+                # for pos_card in possible_throws:
+                    # if pos_card[0] == '+': #verifica se é melhor soltar o +2 agora :) haha
+                    # should_throw_add = self.check_quantity_of_next_player()
+                    # if(should_throw_add):
+                        # return pos_card
 
-        if(list_of_possible_throws == 0): #user takes another card
-            new_card = self.uno.take_new_card_from_deck()
-            player.get_new_card(new_card)
-            if(self.card_can_be_throw(new_card)):
-                player.throw_card(new_card)
-                self.add_to_cards_main_pile(new_card)
-
-        else:  
-            self.currently_card = random.sample(list_of_possible_throws,1) #pega uma aleatória entre as possíveis
-            self.add_to_cards_main_pile(self.currently_card) #joga na mesa
-
-            player.throw_card(self.currently_card[0]) # apaga da mao do usuário
-            print(player.get_cards())
-            print(self.currently_card)
-            # for pos_card in possible_throws:
-                # if pos_card[0] == '+': #verifica se é melhor soltar o +2 agora :) haha
-                # should_throw_add = self.check_quantity_of_next_player()
-                # if(should_throw_add):
-                    # return pos_card
-        if(player.get_cards() == 1):
-            print("UNO!")
+            if(len(player.get_cards()) == 1):
+                print("UNO!")
+                return "UNO"
+        else:
+            self.uno.refuel_deck()
+        return ""
 
 
     def possible_throws(self,player): #retorna a lista de possíveis jogadas
@@ -72,7 +81,7 @@ class Bot:
         return possible_throws
     
     def card_can_be_throw(self,card): #verifica se a carta pode ser jogada
-        if (card[1] == self.currently_card[0][1]) or (card[0] == self.currently_card[0][0]):
+        if (card[1] == self.currently_card[1]) or (card[0] == self.currently_card[0]):
             return True
         return False
     
@@ -82,12 +91,14 @@ class Bot:
         self.shuffle_cards() #embaralha
         self.initialize_players() #inicializa os jogadores com suas cartas
         self.currently_card =  self.draw_a_card_from_deck()#initial card
-        print("ON THE TABLE: ", self.currently_card)
         while(True):
+            print("ON THE TABLE: ", self.currently_card)
             self.who_is_currently_playing = self.players.get_player_by_index(self.index_who_is_playing)
-            self.start_player_turn(self.who_is_currently_playing) 
+            
+            print(self.who_is_currently_playing.get_name()," is playing right now")
+           # print("player cards len ",len(self.who_is_currently_playing.get_cards()))
             self.index_who_is_playing += 1
-            if(self.who_is_currently_playing.get_cards() == 0):
+            if self.start_player_turn(self.who_is_currently_playing) == "UNO":
                 print(self.who_is_currently_playing.get_name()," ganhou!")
                 break
 

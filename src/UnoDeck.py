@@ -27,15 +27,20 @@ class UnoDeck:
   
   def take_new_card_from_deck(self): #to draw a card #puxar da pilha
     new_card = random.sample(self.cards,1)
-    #print(new_card)
     self.cards.remove(new_card[0])
-    return new_card
+    return new_card[0]
 
   def delete_card_from_deck(self,card):
     self.cards.remove(card)
 
   def block_action_card(self):
     pass
+
+  def refuel_deck(self): #reabastecer com a pilha morta
+    self.cards = self.discart_pile
+    first_element_of_new_pile = self.cards.pop() # apaga o último, que ficará na pilha morta
+    self.dicart_pile.clear()
+    self.discart_pile.append(first_element_of_new_pile) #inicia com a última carta
 
   
   
