@@ -1,3 +1,5 @@
+#imported 
+
 class VetorCircular:
     def __init__(self, tamanho):
         self.tamanho = tamanho
@@ -22,6 +24,10 @@ class VetorCircular:
             return elemento_removido
         else:
             print("O vetor está vazio. Adicione elementos antes de remover.")
+
+    def inverter(self):
+        self.vetor[:] = self.vetor[::-1]
+        return self.vetor
 
     def __str__(self):
         return str(self.vetor)

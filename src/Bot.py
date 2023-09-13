@@ -39,7 +39,21 @@ class Bot:
         player.throw_card(card) #player joga a carta e essa é excluida de sua mão
         self.add_to_cards_main_pile(card) # a carta é adicionada a pilha de descarte
         self.currently_card = card # a carta de cima da pilha é a carta jogada agora
-       
+        
+        # ALGORITMO QUE VERIFICA ON IMPACTO DAS CARTAS JOGADAS NO JOGO
+        card_action = self.uno.action_cards(card)
+        if(card[0] == 'X'): # BLOQUEIO
+            print(player.get_name()," bloqueou o próximo jogador")
+            self.index_who_is_playing = card_action(self.index_who_is_playing)
+       # elif(card[0] == 'R'): # REVERSO
+         #   self.players = card_action(self.players)
+        elif(card[0] == '+' or card[0] == 'W'): #SOMA DOIS ou QUATRO
+            print(player.get_name()," jogou um puxa dois ou puxa quatro")
+            for new_card in card_action():
+                self.players.get_player_by_index(self.index_who_is_playing+1).get_new_card(new_card)
+                print(self.players.get_player_by_index(self.index_who_is_playing+1).get_name()," está agora com ",len(self.players.get_player_by_index(self.index_who_is_playing+1).get_cards()))
+       # elif(card[0] == 'C'): # ESCOLHA A COR
+         #   self.currently_card = self.uno.uno('0',card_action())
 
     def deck_is_null(self):
         if self.uno.cards == 0:
@@ -54,11 +68,16 @@ class Bot:
             if(len(list_of_possible_throws) == 0): #user takes another card
                 new_card = self.uno.take_new_card_from_deck()
                 player.get_new_card(new_card)
+                print(player.get_name()," puxou uma nova carta")
                 if(self.card_can_be_throw(new_card)):
                     self.player_throw_card_action(player,new_card)
+                    print(player.get_name()," jogou a nova carta")
             else:  
                 aleatory_card = random.sample(list_of_possible_throws,1) #pega uma aleatória entre as possíveis
                 self.player_throw_card_action(player,aleatory_card[0])
+                print(player.get_name()," jogou uma carta")
+                
+                ## ALGORITMO PARA MELHOR ESCOLHA DAS CARTAS A SEREM JOGADAS
                 # for pos_card in possible_throws:
                     # if pos_card[0] == '+': #verifica se é melhor soltar o +2 agora :) haha
                     # should_throw_add = self.check_quantity_of_next_player()
@@ -92,16 +111,15 @@ class Bot:
         self.initialize_players() #inicializa os jogadores com suas cartas
         self.currently_card =  self.draw_a_card_from_deck()#initial card
         while(True):
-            print("ON THE TABLE: ", self.currently_card)
+           # print("ON THE TABLE: ", self.currently_card)
             self.who_is_currently_playing = self.players.get_player_by_index(self.index_who_is_playing)
             
             print(self.who_is_currently_playing.get_name()," is playing right now")
-           # print("player cards len ",len(self.who_is_currently_playing.get_cards()))
-            self.index_who_is_playing += 1
             if self.start_player_turn(self.who_is_currently_playing) == "UNO":
                 print(self.who_is_currently_playing.get_name()," ganhou!")
                 break
-
+            print("Quantidade de cartas ",len(self.who_is_currently_playing.get_cards()))
+            self.index_who_is_playing += 1
 
 if __name__ == '__main__':
   bot = Bot(4)
