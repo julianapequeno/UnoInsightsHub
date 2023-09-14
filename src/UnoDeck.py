@@ -30,7 +30,7 @@ class UnoDeck:
     self.cards = cards
   
   #cards = property(get_cards,set_cards)
- # discart_pile = property(get_discart_pile)
+  #discart_pile = property(get_discart_pile)
 
   def block_card(self):
     return ['X',1] #pula um player

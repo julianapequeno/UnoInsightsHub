@@ -12,7 +12,6 @@ class Game:
         self.IA_CARDS = IACards()
         
     def verify_card_action_in_game(self,card_action): # ALGORITMO QUE VERIFICA ON IMPACTO DAS CARTAS JOGADAS NO JOGO
-        print(card_action)
         card = card_action[0]
         
         if not card == 'N':
@@ -23,6 +22,7 @@ class Game:
                 self.active_players.vetor.reverse()
                 
             elif(card == '+' or card == 'W'): #SOMA DOIS ou QUATRO
+                card_action.pop(0)
                 for new_card in card_action:
                     self.active_players.get_player_by_index(self.index_who_is_playing+1).player.get_new_card(new_card)
                 
@@ -50,7 +50,7 @@ class Game:
             self.verify_card_action_in_game(list_card_action)
             
             if list_card_action[0] == "G":
-             #   print(self.who_is_currently_playing.player.get_name()," ganhou!")
+                print(self.who_is_currently_playing.player.get_name()," ganhou!")
                 break
             #print("Quantidade de cartas ",len(self.who_is_currently_playing.player.get_player_cards()))
             self.index_who_is_playing += 1
