@@ -29,34 +29,34 @@ class UnoDeck:
   def set_cards(self,cards):
     self.cards = cards
   
-  cards = property(get_cards,set_cards)
-  discart_pile = property(get_discart_pile)
+  #cards = property(get_cards,set_cards)
+ # discart_pile = property(get_discart_pile)
 
   def block_card(self):
-    return list('X',1) #pula um player
+    return ['X',1] #pula um player
   
   def reverse_card(self):
-    return list('R',0)
+    return ['R',0]
 
   def add_two_cards(self):
     if len(self.cards) < 2:
       self.refuel_deck()
     
-    new_two_cards = [self.take_new_card_from_deck() for i in range(0,2)]
-    return list('+',new_two_cards)
+    #new_two_cards = [self.take_new_card_from_deck() for i in range(0,2)]
+    return ['+']
   
   def add_four_cards(self):
     if len(self.cards) < 4:
       self.refuel_deck()
 
-    new_four_cards = [self.take_new_card_from_deck() for i in range(0,2)]
-    return list('W',new_four_cards)
+    #new_four_cards = [self.take_new_card_from_deck() for i in range(0,4)]
+    return ['W']
   
   def choose_a_new_color_card(self):
-    return list('C',random.sample(self.colors,1))
+    return ['C',random.sample(self.colors,1)]
   
   def default(self):
-    return list("D",'default')
+    return ["D","default"]
 
   def action_cards(self,card):
     if(card[0] == 'X'): # BLOQUEIO

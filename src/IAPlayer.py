@@ -21,13 +21,16 @@ class IAPlayer:
         self.player.throw_card(card)
         self.ia_cards.discart_a_card(card)
 
-        list_card_action = self.ia_cards.uno.action_cards(card)
-        if list_card_action[0] == 'C':
+        list_card_action = self.ia_cards.acess_action_cards(card)
+        #print(card," e ",list_card_action)
+        if list_card_action[0] == 'C': # change color
             new_color = list_card_action[1]
             card = self.ia_cards.uno.uno(card[0],new_color)
+        #print("LCA ",list_card_action)
         return list_card_action        
     
     def start_player_turn(self) :
+        list_action_or_not_card = []
         if not self.ia_cards.deck_is_null():
 
             list_of_possible_throws = self.possible_throws(self.player)
@@ -35,13 +38,17 @@ class IAPlayer:
                 new_card = self.ia_cards.take_new_card_from_deck()
                 self.player.get_new_card(new_card)
 
+                print("NC ", new_card)
                 if(self.card_can_be_throw(new_card)):
                     list_action_or_not_card = self.player_throw_card_action(new_card)
-
+                    print("ILAONC: ",list_action_or_not_card)
+                else:
+                    list_action_or_not_card = ['N']
             else:  
                 aleatory_card = random.sample(list_of_possible_throws,1) #pega uma aleatória entre as possíveis
+                #("Aleatória: ",aleatory_card)
                 list_action_or_not_card = self.player_throw_card_action(aleatory_card[0])
-                
+                print("ELAONC: ",list_action_or_not_card)
                 ## ALGORITMO PARA MELHOR ESCOLHA DAS CARTAS A SEREM JOGADAS
                 # for pos_card in possible_throws:
                     # if pos_card[0] == '+': #verifica se é melhor soltar o +2 agora :) haha
@@ -57,27 +64,29 @@ class IAPlayer:
         else:
             print("REABASTECENDO O DECK")
             self.ia_cards.refuel_deck()
+        print("FDF: ",list_action_or_not_card)
         return list_action_or_not_card
     
     def is_UNO(self):
-        if(len(self.player.get_cards()) == 1):
+        if(len(self.player.get_player_cards()) == 1):
             return True
         else:
             return False     
     def winner(self):
-        if(len(self.player.get_cards()) == 0):
+        if(len(self.player.get_player_cards()) == 0):
             return True
         else:
             return False
     
     def possible_throws(self,player): #retorna a lista de possíveis jogadas
         possible_throws = []
-        for play_card in player.get_cards():
+        for play_card in player.get_player_cards():
             if(self.card_can_be_throw(play_card)):
                 possible_throws.append(play_card)
         return possible_throws
     
     def card_can_be_throw(self,card): #verifica se a carta pode ser jogada
-        if (card[1] == self.ia_cards.currently_card[0][1]) or (card[0] == self.ia_cards.currently_card[0][0]):
+        #print("TESTESSSSS")
+        if (card[1] == self.ia_cards.currently_card[1]) or (card[0] == self.ia_cards.currently_card[0]):
             return True
         return False

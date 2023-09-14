@@ -9,7 +9,17 @@ class IACards:
     def get_uno(self):
         return self.uno
     
-    uno = property(get_uno)
+   # uno = property(get_uno)
+   
+    def acess_action_cards(self,card):
+        list_back = self.uno.action_cards(card)
+        if(len(list_back) == 1): #draw 2 or 4 cards
+            if list_back[0] == '+':
+                list_back += [self.take_new_card_from_deck() for i in range(0,2)]
+            elif list_back[0] == 'W':
+                list_back += [self.take_new_card_from_deck() for i in range(0,4)]
+        return list_back
+            
         
     def entrega_mao_do_jogador(self):
         nova_mao = random.sample(self.uno.cards,7) 
