@@ -15,10 +15,10 @@ class Player:
   
   player_cards = property(get_player_cards,set_player_cards)
   
-  def throw_card(self,throw_this_card):
+  def throw_a_card(self,throw_this_card):
     self._player_cards.remove(throw_this_card)
   
-  def get_new_card(self,new_card):
+  def take_a_new_card(self,new_card):
     self._player_cards.append(new_card)
 
   def get_cards_len(self):
