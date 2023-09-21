@@ -71,3 +71,11 @@ class UnoDeck:
       return self.choose_a_new_color_card()
     else:
       return self.default()
+    
+    
+  def refuel_deck(self): #reabastecer com a pilha morta
+        self.cards = self.discart_pile
+        first_element_of_new_pile = self.cards.pop() 
+        
+        self.discart_pile.clear()
+        self.discart_pile.append(first_element_of_new_pile) 
