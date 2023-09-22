@@ -20,13 +20,15 @@ class IA_PLAYER:
     
     def move(self) : # the player's move
         list_of_possible_throws = self.possible_throws()
-        return_card = ['D']
+        return_card = ['P']
+        
         if(len(list_of_possible_throws) == 0): #user takes another card
             new_card = self.IA_UNO.take_new_card_from_deck()
             self.draw_from_deck(new_card)
             
             if(self.IA_UNO.card_can_be_throw(new_card)):
-                return_card = list(new_card)
+                return_card = []
+                return_card.append(new_card)
                 self.throw_card_away(new_card)
         else:  
             aleatory_card = random.sample(list_of_possible_throws,1) #pega uma aleatória entre as possíveis

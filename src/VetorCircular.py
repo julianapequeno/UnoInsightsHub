@@ -33,3 +33,9 @@ class VetorCircular:
     
     def set_new_vetor(self, vetor):
         self.vetor = vetor
+        
+    def get_vector(self):
+        vec = []
+        for el in self.vetor:
+            vec.append(el.me_player.name)
+        return vec

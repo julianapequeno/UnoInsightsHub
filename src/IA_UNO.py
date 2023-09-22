@@ -38,8 +38,6 @@ class IA_UNO:
     
     def reverse_card_action(self):
         self.players.vetor.reverse()
-        print(self.players.vetor)
-
 
     def take_two_cards_action(self):
         if len(self.uno_deck.cards) < 2:
@@ -56,9 +54,11 @@ class IA_UNO:
         return new_four_cards
     
     def choose_a_new_color_card_action(self):
-        return random.sample(self.uno_deck.colors,1)
+        new_color = random.sample(self.uno_deck.colors,1)
+        return new_color[0]
   
     def refuel_deck(self): 
+        print("REFUEL DECK")
         self.uno_deck.cards = self.uno_deck.discart_pile
         first_element_of_new_pile = self.uno_deck.cards.pop() 
         
@@ -81,7 +81,6 @@ class IA_UNO:
     
     
     def applying_action_card(self,card):
-        print(card)
         if(card[0][0] == 'X'): # BLOQUEIO
             self.block_card_action()
         elif(card[0][0] == 'R'): # REVERSO
@@ -93,4 +92,4 @@ class IA_UNO:
             for card in self.take_four_cards_action():
                 self.players.get_player_by_index(self.INDEX_WHO_IS_PLAYING+1).me_player.take_a_new_card(card)
         elif(card[0][0] == 'C'): # ESCOLHA A COR
-            self.CURRENTLY_CARD[1] = self.choose_a_new_color_card_action()
+            self.CURRENTLY_CARD = self.uno_deck.uno(card[0],self.choose_a_new_color_card_action())
