@@ -1,7 +1,8 @@
 from VetorCircular import VetorCircular
 from IA_UNO import IA_UNO
+from IA_Player import IA_PLAYER
 
-class Game:
+class UnoSimulation:
     
     def __init__(self, number_of_players=4):
         self.IA_UNO = IA_UNO()
@@ -14,10 +15,15 @@ class Game:
     def initialize_players(self): 
         self.players = VetorCircular(self.number_of_players)
         for i in range(0,self.number_of_players):
-           # player = IAPlayer(Player("Player "+str(i+1)),self.IA_CARDS)
+            player = IA_PLAYER("Player "+str(i+1))
+            player.receive_first_hand(self.IA_UNO.return_player_first_hand())
             self.players.adicionar(player)
     
     def round(self):
         self.IA_UNO.shuffle_cards() 
         self.IA_UNO.card_on_the_table =  self.IA_UNO.take_new_card_from_deck()#initial card
-        
+
+
+if __name__=='__main__':
+    uno = UnoSimulation()
+    uno.round()

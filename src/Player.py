@@ -13,7 +13,7 @@ class Player:
   def set_player_cards(self,cards):
     self._player_cards = cards
   
-  player_cards = property(get_player_cards,set_player_cards)
+  my_cards = property(get_player_cards,set_player_cards)
   
   def throw_a_card(self,throw_this_card):
     self._player_cards.remove(throw_this_card)
