@@ -2,11 +2,21 @@ from UnoDeck import UnoDeck
 import random
 
 class IA_UNO:
+    
     def __init__(self):
         self.uno_deck = UnoDeck()
-        
+        self.CURRENTLY_CARD = []
+    
     def shuffle_cards(self):
         random.shuffle(self.uno_deck.cards)
+        
+    def change_currently_card(self,card):
+        self.CURRENTLY_CARD = card
+    
+    def discart_a_card(self,card):
+        #adiciona a nova carta à pilha de descarte
+        self.uno_deck.discart_pile.append(card)
+        self.CURRENTLY_CARD = card
         
     def take_new_card_from_deck(self): 
         new_card = random.sample(self.uno_deck.cards,1)
@@ -54,3 +64,8 @@ class IA_UNO:
     
     def default(self):
         return ["D","default"]
+
+    def card_can_be_throw(self,card): #verifica se a carta pode ser jogada
+        if (card[1] == self.CURRENTLY_CARD[1]) or (card[0] == self.CURRENTLY_CARD[0]):
+            return True
+        return False
