@@ -26,7 +26,7 @@ class IA_PLAYER:
             self.draw_from_deck(new_card)
             
             if(self.IA_UNO.card_can_be_throw(new_card)):
-                return_card = new_card
+                return_card = list(new_card)
                 self.throw_card_away(new_card)
         else:  
             aleatory_card = random.sample(list_of_possible_throws,1) #pega uma aleatória entre as possíveis
@@ -35,9 +35,12 @@ class IA_PLAYER:
 
         if self.is_UNO():
             print("UNO")
-            return list("U")
         elif self.winner():
             return list("G")
+        
+        if 'X' in return_card[0][0] or '+' in return_card[0][0]  or 'R' in return_card[0][0] or 'W' in return_card[0][0] or 'C' in return_card[0][0]:
+            return_card.append("S")
+            return return_card
         return return_card
     
     def possible_throws(self): #retorna a lista de possíveis jogadas
