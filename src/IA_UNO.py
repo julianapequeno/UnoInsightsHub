@@ -8,6 +8,14 @@ class IA_UNO:
         self.CURRENTLY_CARD = []
         self.INDEX_WHO_IS_PLAYING = 0 
         self.players = []
+        
+    def get_players(self):
+        return self.players
+    
+    def set_players(self,players):
+        self.players = players
+        
+    my_players = property(get_players,set_players)
     
     def shuffle_cards(self):
         random.shuffle(self.uno_deck.cards)
@@ -30,6 +38,7 @@ class IA_UNO:
     
     def reverse_card_action(self):
         self.players.vetor.reverse()
+        print(self.players.vetor)
 
 
     def take_two_cards_action(self):
@@ -72,15 +81,16 @@ class IA_UNO:
     
     
     def applying_action_card(self,card):
-        if(card[0] == 'X'): # BLOQUEIO
+        print(card)
+        if(card[0][0] == 'X'): # BLOQUEIO
             self.block_card_action()
-        elif(card[0] == 'R'): # REVERSO
+        elif(card[0][0] == 'R'): # REVERSO
             self.reverse_card_action()
-        elif(card[0] == '+'): #SOMA DOIS 
+        elif(card[0][0] == '+'): #SOMA DOIS 
             for card in self.take_two_cards_action():
-                self.players.get_player_by_index(self.INDEX_WHO_IS_PLAYING+1).player.get_new_card(card)
-        elif(card[0] == 'W'): #SOMA QUATRO
+                self.players.get_player_by_index(self.INDEX_WHO_IS_PLAYING+1).me_player.take_a_new_card(card)
+        elif(card[0][0] == 'W'): #SOMA QUATRO
             for card in self.take_four_cards_action():
-                self.players.get_player_by_index(self.INDEX_WHO_IS_PLAYING+1).player.get_new_card(card)
-        elif(card[0] == 'C'): # ESCOLHA A COR
+                self.players.get_player_by_index(self.INDEX_WHO_IS_PLAYING+1).me_player.take_a_new_card(card)
+        elif(card[0][0] == 'C'): # ESCOLHA A COR
             self.CURRENTLY_CARD[1] = self.choose_a_new_color_card_action()
