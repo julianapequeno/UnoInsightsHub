@@ -39,3 +39,11 @@ class VetorCircular:
         for el in self.vetor:
             vec.append(el.me_player.name)
         return vec
+    
+    def get_vector_of_numbers(self):
+        vec = []
+        for el in self.vetor:
+            list_vect = el.me_player.name.split()
+            numb = int(list_vect[1])
+            vec.append(numb)
+        return vec

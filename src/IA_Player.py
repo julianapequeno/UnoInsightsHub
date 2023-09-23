@@ -2,7 +2,7 @@ import random
 from Player import Player
 
 class IA_PLAYER:
-    ESTRATEGY = {'':1} #list of possible estrategies
+    #ESTRATEGY = {'':1} #list of possible estrategies
 
     def __init__(self, name, ia_uno):
         self.me_player = Player(name)
@@ -35,11 +35,6 @@ class IA_PLAYER:
             return_card =  aleatory_card
             self.throw_card_away(aleatory_card[0])
 
-        if self.is_UNO():
-            print("UNO")
-        elif self.winner():
-            return list("G")
-        
         if 'X' in return_card[0][0] or '+' in return_card[0][0]  or 'R' in return_card[0][0] or 'W' in return_card[0][0] or 'C' in return_card[0][0]:
             return_card.append("S")
             return return_card
@@ -51,17 +46,6 @@ class IA_PLAYER:
             if(self.IA_UNO.card_can_be_throw(play_card)):
                 list_of_possible_throws.append(play_card)
         return list_of_possible_throws
-    
-    def is_UNO(self):
-        if(len(self.me_player.get_player_cards()) == 1):
-            return True
-        else:
-            return False     
-    def winner(self):
-        if(len(self.me_player.get_player_cards()) == 0):
-            return True
-        else:
-            return False
     
 
         

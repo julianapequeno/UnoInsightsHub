@@ -29,6 +29,9 @@ class IA_UNO:
         self.CURRENTLY_CARD = card
         
     def take_new_card_from_deck(self): 
+        if len(self.uno_deck.cards) == 0:
+            self.refuel_deck()
+            
         new_card = random.sample(self.uno_deck.cards,1)
         self.delete_cards_from_deck(new_card)
         return new_card[0]
@@ -37,15 +40,21 @@ class IA_UNO:
         self.INDEX_WHO_IS_PLAYING += 1
     
     def reverse_card_action(self):
+        ##getting the last player's position on vetor
+        currently_player_name = self.players.vetor[self.INDEX_WHO_IS_PLAYING%4].me_player.name.split()
+        currently_player_number = int(currently_player_name[1])
+        
+        ##reversing vetor
         self.players.vetor.reverse()
-        list_m = self.players.vetor[1].me_player.name.split()
-        list_n = self.players.vetor[0].me_player.name.split()
-        if int(list_n[1]) < int(list_m[1]): #crescente
-            self.INDEX_WHO_IS_PLAYING += 1
-        elif int(list_n[1]) > int(list_m[1]):
-            self.INDEX_WHO_IS_PLAYING -=1
-        else:
-            self.INDEX_WHO_IS_PLAYING = self.INDEX_WHO_IS_PLAYING
+        
+        #updating vector by currently player index
+        self.INDEX_WHO_IS_PLAYING = self.players.get_vector_of_numbers().index(currently_player_number)
+        
+        #for ia_player in self.players.vetor:
+         #   name = ia_player.me_player.name.split()
+          #  if int(name[1]) == currently_player_number:
+           #     self.INDEX_WHO_IS_PLAYING = i
+            #i+=1
 
     def take_two_cards_action(self):
         if len(self.uno_deck.cards) < 2:
@@ -66,8 +75,8 @@ class IA_UNO:
         return new_color[0]
   
     def refuel_deck(self): 
-        self.uno_deck.cards = self.uno_deck.discart_pile
-        first_element_of_new_pile = self.uno_deck.cards.pop() 
+        self.uno_deck.cards = self.uno_deck.cards+self.uno_deck.discart_pile
+        first_element_of_new_pile = self.uno_deck.cards.pop(0) 
         
         self.uno_deck.discart_pile.clear()
         self.uno_deck.discart_pile.append(first_element_of_new_pile) 
@@ -84,19 +93,35 @@ class IA_UNO:
     def card_can_be_throw(self,card): #verifica se a carta pode ser jogada
         if (card[1] == self.CURRENTLY_CARD[1]) or (card[0] == self.CURRENTLY_CARD[0]):
             return True
-        return False
-    
+        return False  
     
     def applying_action_card(self,card):
         if(card[0][0] == 'X'): # BLOQUEIO
             self.block_card_action()
+    
         elif(card[0][0] == 'R'): # REVERSO
             self.reverse_card_action()
+         
         elif(card[0][0] == '+'): #SOMA DOIS 
             for card in self.take_two_cards_action():
                 self.players.get_player_by_index(self.INDEX_WHO_IS_PLAYING+1).me_player.take_a_new_card(card)
+
         elif(card[0][0] == 'W'): #SOMA QUATRO
             for card in self.take_four_cards_action():
                 self.players.get_player_by_index(self.INDEX_WHO_IS_PLAYING+1).me_player.take_a_new_card(card)
+       
         elif(card[0][0] == 'C'): # ESCOLHA A COR
             self.CURRENTLY_CARD = self.uno_deck.uno(card[0],self.choose_a_new_color_card_action())
+            
+
+    def is_UNO(self,cards):
+        if(cards == 1):
+            return True
+        else:
+            return False     
+
+    def winner(self, cards):
+        if(cards == 0):
+            return True
+        else:
+            return False
