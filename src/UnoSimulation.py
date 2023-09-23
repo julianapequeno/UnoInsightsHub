@@ -29,20 +29,23 @@ class UnoSimulation:
         
         while(True):
             self.who_is_currently_playing = self.IA_UNO.my_players.get_player_by_index(self.IA_UNO.INDEX_WHO_IS_PLAYING)
+            
             if len(self.IA_UNO.uno_deck.cards) == 0:
                 self.IA_UNO.refuel_deck()
+                
             card_thrown = self.IA_UNO.my_players.get_player_by_index(self.IA_UNO.INDEX_WHO_IS_PLAYING).move()    
             
             if not 'P' in card_thrown: #player's not passed his turn 
                 self.card_on_the_table = card_thrown
                 print(self.who_is_currently_playing.me_player.name," - ",card_thrown)
-                if(len(card_thrown) == 2): #has an action card
-                    self.IA_UNO.applying_action_card(card_thrown)
                 if(card_thrown[0] == 'G'):
                     print(self.IA_UNO.my_players.get_player_by_index(self.IA_UNO.INDEX_WHO_IS_PLAYING).me_player.name)
                     break
+                if(len(card_thrown) == 2): #has an action card
+                    self.IA_UNO.applying_action_card(card_thrown)
             else:
                 print(self.who_is_currently_playing.me_player.name," has passed his turn")
+            
             self.IA_UNO.INDEX_WHO_IS_PLAYING += 1
 
     def simulate_scrip(self):

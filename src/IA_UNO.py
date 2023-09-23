@@ -38,6 +38,14 @@ class IA_UNO:
     
     def reverse_card_action(self):
         self.players.vetor.reverse()
+        list_m = self.players.vetor[1].me_player.name.split()
+        list_n = self.players.vetor[0].me_player.name.split()
+        if int(list_n[1]) < int(list_m[1]): #crescente
+            self.INDEX_WHO_IS_PLAYING += 1
+        elif int(list_n[1]) > int(list_m[1]):
+            self.INDEX_WHO_IS_PLAYING -=1
+        else:
+            self.INDEX_WHO_IS_PLAYING = self.INDEX_WHO_IS_PLAYING
 
     def take_two_cards_action(self):
         if len(self.uno_deck.cards) < 2:
@@ -58,7 +66,6 @@ class IA_UNO:
         return new_color[0]
   
     def refuel_deck(self): 
-        print("REFUEL DECK")
         self.uno_deck.cards = self.uno_deck.discart_pile
         first_element_of_new_pile = self.uno_deck.cards.pop() 
         
