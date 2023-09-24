@@ -28,6 +28,9 @@ class VetorCircular:
     def __str__(self):
         return str(self.vetor)
     
+    def __len__(self):
+        return len(self.vetor)
+    
     def get_player_by_index(self, pos):
         return self.vetor[pos % self.tamanho]
     

@@ -35,7 +35,7 @@ class IA_PLAYER:
             return_card =  aleatory_card
             self.throw_card_away(aleatory_card[0])
 
-        if 'X' in return_card[0][0] or '+' in return_card[0][0]  or 'R' in return_card[0][0] or 'W' in return_card[0][0] or 'C' in return_card[0][0]:
+        if 'X' in return_card[0][0] or '+' in return_card[0][0]  or 'R' in return_card[0][0] or 'W' in return_card[0][0] or 'C' in return_card[0][0] or '0' in return_card[0][0]:
             return_card.append("S")
             return return_card
         return return_card

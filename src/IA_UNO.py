@@ -112,8 +112,40 @@ class IA_UNO:
        
         elif(card[0][0] == 'C'): # ESCOLHA A COR
             self.CURRENTLY_CARD = self.uno_deck.uno(card[0],self.choose_a_new_color_card_action())
-            
+        
+        #numbers cards action
+        elif(card[0][0] == '0'): #can change hands with other person
+            self.zero_action_card()
+        elif(card[0][0] == '7'): #silence
+            pass
+        elif(card[0][0] == '9'): #bater na mesa
+            pass
+        
+    def zero_action_card(self):
+        q_cards_of_others_players = []
+        player_q_cards = len(self.players.vetor[self.INDEX_WHO_IS_PLAYING%4].me_player.my_cards)
+        
+        for i in range(0, len(self.players)):
+            q_cards_of_others_players.append(self.players.get_player_by_index(i))
+        
+        good_for_exchange = [ i  for i in q_cards_of_others_players if len(i.me_player.my_cards) < player_q_cards]
 
+        if len(good_for_exchange) != 0:
+            prob = random.randint(1,101)
+            if prob >= 40: #60% de probabilidade de trocar
+                #exchange!
+                change_hand_with = random.sample(good_for_exchange,1)
+                aux = change_hand_with[0].me_player.my_cards
+
+                change_hand_with[0].me_player.my_cards = self.players.get_player_by_index(self.INDEX_WHO_IS_PLAYING%4).me_player.my_cards
+                self.players.vetor[self.INDEX_WHO_IS_PLAYING%4].me_player.my_cards = aux
+
+        else:
+            #o jogador consegue ver as cartas do outro
+            pass
+            
+        
+        
     def is_UNO(self,cards):
         if(cards == 1):
             return True

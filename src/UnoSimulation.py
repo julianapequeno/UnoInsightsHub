@@ -40,13 +40,13 @@ class UnoSimulation:
             
             if not 'P' in card_thrown: #player's not passed his turn 
                 self.card_on_the_table = card_thrown
-                print(self.who_is_currently_playing.me_player.name," - ",card_thrown)
+                print(self.who_is_currently_playing.me_player.name," - ",card_thrown[0])
                 
                 if(self.IA_UNO.is_UNO(len(self.who_is_currently_playing.me_player.get_player_cards()))):
                     print("UNO!! - ",self.who_is_currently_playing.me_player.name)
 
                 if(self.IA_UNO.winner(len(self.who_is_currently_playing.me_player.get_player_cards()))):
-                    print(self.IA_UNO.my_players.get_player_by_index(self.IA_UNO.INDEX_WHO_IS_PLAYING).me_player.name)
+                    print(self.IA_UNO.my_players.get_player_by_index(self.IA_UNO.INDEX_WHO_IS_PLAYING).me_player.name, ' won the game')
                     break
                
                 if(len(card_thrown) == 2): #has an action card
@@ -74,4 +74,4 @@ class UnoSimulation:
 if __name__=='__main__':
     uno = UnoSimulation()
     uno.round()
-    print("Simulation finalized with sucess")
+    print(">>>> Simulation finalized with sucess")
