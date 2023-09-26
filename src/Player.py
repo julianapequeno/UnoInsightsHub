@@ -1,6 +1,7 @@
 class Player:
   def __init__(self,name):
     self._name = name
+    self._player_cards = []
 
   def get_name(self):
     return self._name

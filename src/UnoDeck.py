@@ -9,7 +9,6 @@ class UnoDeck:
 
   def __init__(self):
     self.cards = [self.uno(rank,color) for color in self.colors for rank in self.ranks]
-    print(len(self.cards))
     self.discart_pile = []
 
   def __len__(self):

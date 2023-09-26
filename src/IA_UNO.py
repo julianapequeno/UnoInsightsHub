@@ -8,6 +8,7 @@ class IA_UNO:
         self.CURRENTLY_CARD = []
         self.INDEX_WHO_IS_PLAYING = 0 
         self.players = []
+        self.STILL_A_ROUND_OF_7 = False
         
     def get_players(self):
         return self.players
@@ -116,10 +117,29 @@ class IA_UNO:
         #numbers cards action
         elif(card[0][0] == '0'): #can change hands with other person
             self.zero_action_card()
-        elif(card[0][0] == '7'): #silence
-            pass
         elif(card[0][0] == '9'): #bater na mesa
             pass
+            
+      #  if(card[0][0] == '7' or self.STILL_A_ROUND_OF_7): #silence
+        #    if(card[0][0] == '7'):
+         #       self.STILL_A_ROUND_OF_7 = True
+          #      self.seven_count = 1
+           # self.seven_action_card()
+            #self.seven_count +=1
+            
+            #if(self.seven_count == len(self.players)):
+             #   self.STILL_A_ROUND_OF_7 = False
+        
+    def seven_action_card(self):
+        probability_of_saying_something = 20
+        
+        result = random.randint(1,101)
+        
+        if result <= probability_of_saying_something: #someone said something
+            who_said = random.sample(self.players.vetor,1)
+            new_card = self.take_new_card_from_deck()
+            who_said[0].draw_from_deck(new_card) #puxa uma carta
+            print("Someone falou no 7!")       
         
     def zero_action_card(self):
         q_cards_of_others_players = []
@@ -143,9 +163,7 @@ class IA_UNO:
         else:
             #o jogador consegue ver as cartas do outro
             pass
-            
-        
-        
+                
     def is_UNO(self,cards):
         if(cards == 1):
             return True
@@ -156,4 +174,4 @@ class IA_UNO:
         if(cards == 0):
             return True
         else:
-            return False
+            return False 
