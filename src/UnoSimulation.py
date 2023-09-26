@@ -1,6 +1,6 @@
 from VetorCircular import VetorCircular
 from IA_UNO import IA_UNO
-from IA_Player import IA_PLAYER
+from PlayerStrategy1 import PlayerStrategy1
 
 class UnoSimulation:
     
@@ -13,7 +13,7 @@ class UnoSimulation:
     def initialize_players(self): 
         self.IA_UNO.my_players = VetorCircular(self.number_of_players)
         for i in range(0,self.number_of_players):
-            player = IA_PLAYER("Player "+str(i),self.IA_UNO)
+            player = PlayerStrategy1("Player "+str(i),self.IA_UNO)
             player.receive_first_hand(self.IA_UNO.return_player_first_hand())
             self.IA_UNO.my_players.adicionar(player)
     

@@ -1,9 +1,10 @@
 import random
 from Player import Player
 
-class IA_PLAYER:
-    #ESTRATEGY = {'':1} #list of possible estrategies
+#generalist class of IA_Player
 
+class IA_Player():
+    
     def __init__(self, name, ia_uno):
         self.me_player = Player(name)
         self.IA_UNO = ia_uno
@@ -17,7 +18,7 @@ class IA_PLAYER:
 
     def draw_from_deck(self,card):
        self.me_player.take_a_new_card(card)
-    
+       
     def move(self) : # the player's move
         list_of_possible_throws = self.possible_throws()
         return_card = ['P']
@@ -31,7 +32,8 @@ class IA_PLAYER:
                 return_card.append(new_card)
                 self.throw_card_away(new_card)
         else:  
-            aleatory_card = random.sample(list_of_possible_throws,1) #pega uma aleatória entre as possíveis
+            aleatory_card = self.player_strategy_which_card(list_of_possible_throws)
+            
             return_card =  aleatory_card
             self.throw_card_away(aleatory_card[0])
 
@@ -47,8 +49,6 @@ class IA_PLAYER:
                 list_of_possible_throws.append(play_card)
         return list_of_possible_throws
     
-
+    def player_strategy_which_card(self,list_of_possible_throws):
+        return random.sample(list_of_possible_throws,1) #pega uma aleatória entre as possíveis
         
-        
-    
-    
