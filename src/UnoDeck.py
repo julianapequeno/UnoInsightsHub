@@ -1,19 +1,29 @@
-import collections
+from Card import Card
+from ActionCards import ActionCard
+from CardsBehaviors import *
 
 class UnoDeck:
 
-  uno = collections.namedtuple('Card',['rank','color'])
-
-  ranks = [str(0)] + [str(n) for n in range(1,10)]*2 + list('XXRR++WC') #X -> BLOQUEIO ; R -> REVERSE ; + -> SOMA DOIS ; W -> SOMA QUATRO ; C -> ESCOLHA A COR (CHOICE)
   colors = 'blue yellow red green'.split()
-
+  
   def __init__(self):
-    self.cards = [self.uno(rank,color) for color in self.colors for rank in self.ranks]
-    print(len(self.cards))
+    self.cards = []
     self.discart_pile = []
-
-  def __len__(self):
-    return len(self._cards)
-
-  def __getitem__(self,position):
-    return self._cards[position]
+    
+    #adding common cards to deck
+    for color in self.colors:
+      self.cards.append(Card(0,color))
+      for i in range(1,10):
+        self.cards.append(Card(i,color))
+        self.cards.append(Card(i,color))
+        
+    #adding action and wild cards to deck
+    for color in self.colors:
+        self.cards.append(ActionCard('X',color,BlockNextPlayer))
+        self.cards.append(ActionCard('X',color,BlockNextPlayer))
+        self.cards.append(ActionCard('R',color,Reverse))
+        self.cards.append(ActionCard('R',color,Reverse))
+        self.cards.append(ActionCard('+',color,DrawTwoCards))
+        self.cards.append(ActionCard('+',color,DrawTwoCards))
+        self.cards.append(ActionCard('W',color,DrawFourCards))
+        self.cards.append(ActionCard('C',color,ChangeColor))
