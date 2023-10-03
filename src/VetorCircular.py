@@ -28,8 +28,25 @@ class VetorCircular:
     def __str__(self):
         return str(self.vetor)
     
+    def __len__(self):
+        return len(self.vetor)
+    
     def get_player_by_index(self, pos):
         return self.vetor[pos % self.tamanho]
     
     def set_new_vetor(self, vetor):
         self.vetor = vetor
+        
+    def get_vector(self):
+        vec = []
+        for el in self.vetor:
+            vec.append(el.me_player.name)
+        return vec
+    
+    def get_vector_of_numbers(self):
+        vec = []
+        for el in self.vetor:
+            list_vect = el.me_player.name.split()
+            numb = int(list_vect[1])
+            vec.append(numb)
+        return vec
