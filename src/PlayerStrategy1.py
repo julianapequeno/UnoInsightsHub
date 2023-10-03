@@ -1,4 +1,4 @@
-from IA_Player import IA_Player
+from src.IA_Player import IA_Player
 
 class PlayerStrategy1(IA_Player):
 

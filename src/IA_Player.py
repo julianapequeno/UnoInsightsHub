@@ -1,5 +1,5 @@
 import random
-from Player import Player
+from src.Player import Player
 
 #generalist class of IA_Player
 
