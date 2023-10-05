@@ -7,5 +7,5 @@ class Card:
     def __str__(self) -> str:
         return str("Card ("+str(self.rank)+" ,"+self.color+")")
         
-    def execute_move(self,machine): 
+    def execute_move(self,machine,players): 
         pass

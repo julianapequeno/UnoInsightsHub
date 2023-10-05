@@ -7,18 +7,14 @@ class Machine:
         self.uno_deck = UnoDeck()
         self.CURRENTLY_CARD = []
         self.INDEX_WHO_IS_PLAYING = 0 
-        self.players = []
-        
-        ##tests
-        ##self.STILL_A_ROUND_OF_7 = False
-        
-    def get_players(self):
-        return self.players
     
-    def set_players(self,players):
-        self.players = players
-        
-    my_players = property(get_players,set_players)
+    def reset_uno_machine(self):
+        self.uno_deck = UnoDeck()
+        self.CURRENTLY_CARD = []
+        self.INDEX_WHO_IS_PLAYING = 0 
+    
+    def get_uno_deck_cards_length(self):
+        return self.uno_deck.get_cards_length()
     
     def can_these_numbers_of_players_play_uno(self, number_of_players):
         min_cards_on_deck = 4
@@ -69,14 +65,12 @@ class Machine:
             return True
         return False  
 
+    def check_if_deck_is_empty_and_refuel_deck(self):
+        if self.get_uno_deck_cards_length() == 0:
+            self.refuel_deck()
+
     def is_UNO(self,cards):
-        if(cards == 1):
-            return True
-        else:
-            return False     
+        return cards == 1    
 
     def winner(self, cards):
-        if(cards == 0):
-            return True
-        else:
-            return False 
+        return cards == 0
