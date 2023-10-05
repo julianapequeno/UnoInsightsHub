@@ -27,3 +27,6 @@ class UnoDeck:
         self.cards.append(ActionCard('+',color,DrawTwoCards))
         self.cards.append(ActionCard('W',color,DrawFourCards))
         self.cards.append(ActionCard('C',color,ChangeColor))
+      
+  def get_cards_length(self):
+    return len(self.cards)

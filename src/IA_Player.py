@@ -13,6 +13,12 @@ class IA_Player():
     def get_player(self):
         return self.me_player
     
+    def get_player_name(self):
+        return self.me_player.name
+
+    def get_player_cards(self):
+        return self.me_player.get_player_cards()
+    
     def receive_first_hand(self,cards):
         self.me_player.my_cards = cards
         

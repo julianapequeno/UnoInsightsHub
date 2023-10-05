@@ -7,5 +7,5 @@ class ActionCard(Card):
         super().__init__(rank,color)
         self.behavior = behavior
     
-    def execute_move(self,machine):
-        self.behavior.execute(machine)
+    def execute_move(self,machine,players):
+        self.behavior.execute(machine,players)
