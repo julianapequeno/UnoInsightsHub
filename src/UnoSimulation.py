@@ -28,7 +28,7 @@ class UnoSimulation:
             self.initialize_players()
     
     def verify_initial_parameters(self):
-        self.STATUS_CAN_PLAY = self.bot.can_these_numbers_of_players_play_uno(self.number_of_players)
+        self.STATUS_CAN_PLAY = self.bot.can_this_number_of_players_play_uno(self.number_of_players)
     
     def initialize_players(self): 
         self.INITIAL_PLAYERS_CARDS = []
@@ -39,7 +39,7 @@ class UnoSimulation:
             
             #insert cards into players
             cards = self.bot.get_player_first_hand()
-            ia_player.me_player.setcards(cards)
+            ia_player.player.setcards(cards)
             
             #storing initial cards
             initial_cards_of_player = [str(n) for n in cards]
@@ -76,7 +76,7 @@ class UnoSimulation:
                 
                 if card_thrown != None: #player's not passed his turn 
                     self.CARD_ON_THE_TABLE = card_thrown
-                    print(self.CARD_ON_THE_TABLE)
+                    print(self.CURRENTLY_PLAYER.get_player_name()," > ",self.CARD_ON_THE_TABLE)
                     self.check_if_is_uno()
                     
                     if(self.player_has_won()): #simulation 

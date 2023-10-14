@@ -36,13 +36,13 @@ class CircularVector:
     def get_vector(self):
         vec = []
         for el in self.vector:
-            vec.append(el.me_player.name)
+            vec.append(el.player.name)
         return vec
     
     def get_vector_of_numbers(self):
         vec = []
         for el in self.vector:
-            list_vect = el.me_player.name.split()
+            list_vect = el.player.name.split()
             numb = int(list_vect[1])
             vec.append(numb)
         return vec
