@@ -83,3 +83,4 @@ class Machine:
         
         #discart card from avaiable cards
         self.discart_a_card(first_card)
+        return first_card

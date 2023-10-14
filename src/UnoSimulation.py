@@ -2,9 +2,6 @@ from dataclasses import dataclass
 from CircularVector import CircularVector
 from Machine import Machine
 from PlayerStrategy1 import PlayerStrategy1
-from logging import getLogger
-
-logging = getLogger('executing')
 
 @dataclass
 class SimulationOutputData:
@@ -79,11 +76,11 @@ class UnoSimulation:
                 
                 if card_thrown != None: #player's not passed his turn 
                     self.CARD_ON_THE_TABLE = card_thrown
-                    logging.warning(self.CARD_ON_THE_TABLE)
+                    print(self.CARD_ON_THE_TABLE)
                     self.check_if_is_uno()
                     
                     if(self.player_has_won()): #simulation 
-                        logging.warning(self.CURRENTLY_PLAYER.get_player_name()+' won the game')
+                        print(self.CURRENTLY_PLAYER.get_player_name()+' won the game')
 
                         name = self.CURRENTLY_PLAYER.get_player_name()
                         return self.simulation_data(name)
@@ -91,7 +88,7 @@ class UnoSimulation:
                     card_thrown.execute_move(self.bot,self.IA_PLAYERS_CIRCULAR_VECTOR)
                 
                 else:
-                    logging.warning(self.CURRENTLY_PLAYER.get_player_name()+" has passed their turn")
+                    print(self.CURRENTLY_PLAYER.get_player_name()+" has passed their turn")
                 
                 self.bot.INDEX_WHO_IS_PLAYING += 1
         else:
@@ -100,7 +97,7 @@ class UnoSimulation:
     
     def check_if_is_uno(self):
         if(self.bot.is_UNO(self.bot.uno_deck.get_cards_length())): 
-            logging.warning("UNO!! - "+self.CURRENTLY_PLAYER.get_player_name())
+            print("UNO!! - "+self.CURRENTLY_PLAYER.get_player_name())
                 
     def player_has_won(self):
         return self.bot.winner(self.bot.uno_deck.get_cards_length())
@@ -113,24 +110,23 @@ class UnoSimulation:
     
     def print_simulation_scrip(self):
         print(">>>>>>>>> Launching UNO")
-        print("Simulating with ",self.number_of_players," players")
+        print(f"Simulating with {self.number_of_players} players")
         print("* PLAYERS INITIAL CARDS: ")
         
         print(self.IA_PLAYERS_CIRCULAR_VECTOR)
         for i in range(0, self.number_of_players):
             print(">>>> Player ",i)
             for card in self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(i).get_player_cards():
-                print("Card [",card.rank,",",card.color,"]")
+                print(f"Card [{card.rank},{card.color}]")
 
     def print_game_beggining(self,card):
-        print(">> INITIAL CARD: ",card)
-        print(">>>>>>>> GAME BEGINS >>>>>>>>>")
+        print(">> INITIAL CARD: ",str(card))
+        print(">>>>>>>>>>>>>>>>> GAME BEGINS")
 
     def print_cant_run_UNO_error_message(self):
         print("Sorry. The number of players is either exceding the limit or under the minimum number")
     
 if __name__=='__main__':
-    
     UNO_MACHINE = Machine()
     PLAYERS = CircularVector(4)
     
