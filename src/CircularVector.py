@@ -13,8 +13,6 @@ class CircularVector:
             self.vector[self.end] = element
             self.end = (self.end + 1) % self.size
             self.currently_size += 1
-        else:
-            print("Vector is full. Please remove elements before adding more.")
 
     def remove(self):
         if self.currently_size > 0:
@@ -22,11 +20,9 @@ class CircularVector:
             self.begin = (self.begin + 1) % self.size
             self.currently_size -= 1
             return removed_element
-        else:
-            print("Vector is empty. Add elements before removing.")
 
     def __str__(self):
-        return str(self.vector)
+        return f'{self.vector}'
     
     def __len__(self):
         return len(self.vector)

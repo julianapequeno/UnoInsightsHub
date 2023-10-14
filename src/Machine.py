@@ -8,7 +8,7 @@ class Machine:
         self.CURRENTLY_CARD = []
         self.INDEX_WHO_IS_PLAYING = 0 
     
-    def reset_uno_machine(self):
+    def reset_machine(self):
         self.uno_deck = UnoDeck()
         self.CURRENTLY_CARD = []
         self.INDEX_WHO_IS_PLAYING = 0 
@@ -49,9 +49,11 @@ class Machine:
     
     def discart_a_card(self,card):
         self.uno_deck.discart_pile.append(card)
+        
+        #change currently card to CARD_ON_THE_TABLE
         self.CURRENTLY_CARD = card
 
-    def return_player_first_hand(self):
+    def get_player_first_hand(self):
         hand = random.sample(self.uno_deck.cards,7) 
         self.delete_cards_from_deck(hand)
         return hand
@@ -74,3 +76,10 @@ class Machine:
 
     def winner(self, cards):
         return cards == 0
+    
+    def get_game_first_card(self):
+        #draw a brand new card from deck
+        first_card = self.take_new_card_from_deck()
+        
+        #discart card from avaiable cards
+        self.discart_a_card(first_card)
