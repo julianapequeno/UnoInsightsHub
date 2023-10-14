@@ -96,11 +96,11 @@ class UnoSimulation:
             return None
     
     def check_if_is_uno(self):
-        if(self.bot.is_UNO(self.bot.uno_deck.get_cards_length())): 
+        if(self.bot.is_UNO(self.CURRENTLY_PLAYER.get_player_cards())): 
             print("UNO!! - "+self.CURRENTLY_PLAYER.get_player_name())
                 
     def player_has_won(self):
-        return self.bot.winner(self.bot.uno_deck.get_cards_length())
+        return self.bot.winner(self.CURRENTLY_PLAYER.get_player_cards())
                             
     def simulation_data(self,name):
         initial_hands = self.INITIAL_PLAYERS_CARDS

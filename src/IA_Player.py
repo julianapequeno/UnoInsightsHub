@@ -2,8 +2,6 @@ import random
 from Card import Card
 from Player import Player
 
-#generalist class of IA_Player
-
 class IA_Player():
     
     def __init__(self, name):

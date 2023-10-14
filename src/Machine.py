@@ -72,10 +72,10 @@ class Machine:
             self.refuel_deck()
 
     def is_UNO(self,cards):
-        return cards == 1    
+        return len(cards) == 1    
 
     def winner(self, cards):
-        return cards == 0
+        return len(cards) == 0
     
     def get_game_first_card(self):
         #draw a brand new card from deck
