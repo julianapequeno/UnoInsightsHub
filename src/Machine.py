@@ -1,7 +1,7 @@
 from Card import Card
 from UnoDeck import UnoDeck
 
-class Machine: #controller
+class Machine: #controller    
     
     def __init__(self):
         self.uno_deck = UnoDeck()

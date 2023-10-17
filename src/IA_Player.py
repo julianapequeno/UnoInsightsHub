@@ -43,8 +43,8 @@ class IA_Player():
         else:  
             aleatory_card = self.player_strategy_which_card_throw(list_of_possible_throws)
             
-            return_card =  aleatory_card[0]
-            self.throw_card_away(aleatory_card[0])
+            return_card =  aleatory_card
+            self.throw_card_away(aleatory_card)
 
         return return_card
     
@@ -58,5 +58,8 @@ class IA_Player():
         return list_of_possible_throws
     
     def player_strategy_which_card_throw(self,list_of_possible_throws):
-        return random.sample(list_of_possible_throws,1)
-        
+        card = random.sample(list_of_possible_throws,1)
+        return card[0]
+
+    def get_other_players_number_of_cards(self,players_numbers_of_cards):
+        self.NEXT_PLAYER_NUMBER_OF_CARDS = players_numbers_of_cards

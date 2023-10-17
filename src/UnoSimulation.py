@@ -72,16 +72,23 @@ class UnoSimulation:
             while(True):
                 self.update_currently_player()
                 self.bot.check_if_deck_is_empty_and_refuel_deck()
+                
+                ##
+                next_player_number_of_cards = len(self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(self.bot.INDEX_WHO_IS_PLAYING+1).get_player().cards)
+                self.CURRENTLY_PLAYER.get_other_players_number_of_cards(next_player_number_of_cards)
+                ##
+                
                 card_thrown = self.CURRENTLY_PLAYER.move()
                 
                 if card_thrown != None: #player's not passed his turn 
                     self.CARD_ON_THE_TABLE = card_thrown
-                    print(self.CURRENTLY_PLAYER.get_player_name()," > ",self.CARD_ON_THE_TABLE)
+                    print(self.CURRENTLY_PLAYER.get_player_name()," > ",self.CARD_ON_THE_TABLE," e agora tem ",len(self.CURRENTLY_PLAYER.get_player().cards))
+                    
                     self.check_if_is_uno()
                     
                     if(self.player_has_won()): #simulation 
                         print(self.CURRENTLY_PLAYER.get_player_name()+' won the game')
-
+                        
                         name = self.CURRENTLY_PLAYER.get_player_name()
                         return self.simulation_data(name)
                 

@@ -1,10 +1,12 @@
 import random
 from abc import ABC, abstractmethod
 
+from CircularVector import CircularVector
+
 #abstract class that have only abstract methods -> INTERFACE in python
 class Behavior(ABC):
     @abstractmethod
-    def execute(machine,players):
+    def execute(machine,players:CircularVector):
         pass
 
 class BlockNextPlayer(Behavior):
@@ -37,12 +39,12 @@ class DrawFourCards(Behavior):
     def execute(machine,players):        
         if len(machine.uno_deck.cards) < 4:
             machine.refuel_deck()
-         
+
         new_cards = [machine.take_new_card_from_deck() for i in range(0,4)]
         
         for card in new_cards:
                 players.get_ia_player_by_index(machine.INDEX_WHO_IS_PLAYING+1).get_player().add_cart_to_list(card)
-        
+    
 class ChangeColor(Behavior):
     def execute(machine,players):        
         new_color = random.sample(machine.uno_deck.colors,1)
