@@ -11,7 +11,7 @@ This is the first data analysis project that I'm working on. The ideia is to mod
 
 ### BRANCHES
 
-- [main](https://github.com/julianasantiago100/uno_simulation/tree/main) - This branch contains the main source code for now. It's the best and the estable version of UNO SIMULATION.
+- [main](https://github.com/julianasantiago100/uno_simulation/tree/main) - This branch contains the main source code for now. It's the best and the stable version of UNO SIMULATION.
 - [data_analysis_pythonic](https://github.com/julianasantiago100/uno_simulation/tree/data_analysis_pythonic) - This branch contains a data analysis notebook and it is designed for feed the dataset.
 - [playerstrategyone](https://github.com/julianasantiago100/uno_simulation/tree/playerstrategyone) - This branch contains the beggining of development of the player strategy class.
 
