@@ -7,7 +7,7 @@ class PlayersHandsSimulationTest:
     def test_one_aleatory_sample_players_hands(self):
         hands_test_one = []
         for _ in range(0,self.n_players):
-            hand = self.bot.return_player_first_hand()
+            hand = self.bot.get_player_first_hand()
             hands_test_one.append(hand)
         return hands_test_one
         

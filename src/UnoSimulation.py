@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from TestSimulationInput import PlayersHandsSimulationTest
+from src.Card import Card
+from src.TestSimulationInput import PlayersHandsSimulationTest
 from src.CircularVector import CircularVector
 from src.Machine import Machine
 from src.PlayerStrategy1 import PlayerStrategy1
@@ -14,6 +15,7 @@ class SimulationInputData:
     bot: Machine
     round_players: CircularVector
     number_of_players: int
+    players_cards: list[list[Card]]
 
 class UnoSimulation:
     
@@ -27,48 +29,35 @@ class UnoSimulation:
         
         if(self.STATUS_CAN_PLAY):
             self.IA_PLAYERS_CIRCULAR_VECTOR = input.round_players
-            self.sample_players_first_hands()
-            self.initialize_players()
-    
-    def sample_players_first_hands(self):       
-        self.TEST_ONE_ = PlayersHandsSimulationTest(self.number_of_players, self.bot) 
-        hands_of_players_test_ONE = self.TEST_ONE_.test_one_aleatory_sample_players_hands() 
-        self.initial_cards = hands_of_players_test_ONE
-    
-    def players_first_cards(self,i):
-        if self.IS_ANALYSING_DATA:
-            return self.initial_cards[i].copy()
-        else:
-            return self.bot.get_player_first_hand()
+            self.initialize_players(input.players_cards.copy())
     
     def verify_initial_parameters(self):
         self.STATUS_CAN_PLAY = self.bot.can_this_number_of_players_play_uno(self.number_of_players)
     
-    def initialize_players(self): 
-        self.INITIAL_PLAYERS_CARDS = []
+    def initialize_players(self,players_cards): 
         
-        jj = 0
+        i = 0
         for ia_player in self.IA_PLAYERS_CIRCULAR_VECTOR.vector:
             #insert bot into ia_player
             ia_player.insert_uno_machine(self.bot)
             
             #insert cards into players
-            cards = self.players_first_cards(jj)
+            cards = players_cards[i]
             ia_player.player.setcards(cards)
             
             #storing initial cards
             initial_cards_of_player = [str(n) for n in cards]
-            self.INITIAL_PLAYERS_CARDS.insert(i,initial_cards_of_player)
-            jj += 1
+           # self.INITIAL_PLAYERS_CARDS.insert(i,initial_cards_of_player)
+            i += 1
+        self.INITIAL_PLAYERS_CARDS = [str(card) for player in players_cards for card in player]
             
     def reset_simulation(self):
         #reset machine
-        self.bot.reset_machine()
-        
+        self.bot.reset_machine(self.INITIAL_PLAYERS_CARDS.copy())
+        self.initialize_players(self.INITIAL_PLAYERS_CARDS.copy())
         #reset mainly variables
         self.CARD_ON_THE_TABLE = None
         self.CURRENTLY_PLAYER = []
-        self.INITIAL_PLAYERS_CARDS = []
         
     def initialize_game_with_first_card(self):
         self.CARD_ON_THE_TABLE =  self.bot.get_game_first_card()
@@ -127,6 +116,7 @@ class UnoSimulation:
                             
     def simulation_data(self,name):
         initial_hands = self.INITIAL_PLAYERS_CARDS
+        print(initial_hands)
         out = SimulationOutputData(name,initial_hands)
         self.reset_simulation() #reset the simulation
         return out
@@ -148,17 +138,3 @@ class UnoSimulation:
 
     def print_cant_run_UNO_error_message(self):
         print("Sorry. The number of players is either exceding the limit or under the minimum number")
-    
-if __name__=='__main__':
-    UNO_MACHINE = Machine()
-    PLAYERS = CircularVector(4)
-    
-    for i in range(0,4):
-        player_name = "Player "+str(i)
-        ia_player = PlayerStrategy1(player_name)
-        PLAYERS.add(ia_player)
-            
-    simulation_data = SimulationInputData(UNO_MACHINE,PLAYERS,4)
-    
-    uno = UnoSimulation(simulation_data)
-    uno.round()

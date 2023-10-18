@@ -8,8 +8,9 @@ class Machine: #controller
         self.CURRENTLY_CARD: Card
         self.INDEX_WHO_IS_PLAYING = 0 
     
-    def reset_machine(self):
+    def reset_machine(self, players_input_fixed):
         self.uno_deck = UnoDeck()
+        self.delete_cards_from_deck(players_input_fixed)
         self.CURRENTLY_CARD: Card
         self.INDEX_WHO_IS_PLAYING = 0 
     
