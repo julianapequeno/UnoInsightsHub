@@ -17,12 +17,10 @@ class PlayerStrategy1(IA_Player):
         
         if self.PRIORITY_TO_THROW_ACTION_CARD and self.ACTION_CARDS:
             card = random.sample(self.ACTION_CARDS, 1)
-            print("Prioridade action card -> ", card[0])
             return card[0]
         else:
             card = random.sample(list_of_possible_throws, 1)
             return card[0]
-        #return super().player_strategy_which_card_throw(list_of_possible_throws)
     
     def split_action_and_normal_cards(self,list_of_possible_throws):
         self.ACTION_CARDS = []
