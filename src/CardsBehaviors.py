@@ -25,13 +25,13 @@ class Reverse(Behavior):
         
 class DrawTwoCards(Behavior):
     def execute(machine,players):   
-        if len(machine.uno_deck.cards) < 2: #É RESPONSA DO MACHINE
+        if len(machine.uno_deck.cards) < 2: 
             machine.refuel_deck()
          
         new_cards = [machine.take_new_card_from_deck() for i in range(0,2)]
         
         for card in new_cards:
-            players.get_ia_player_by_index(machine.INDEX_WHO_IS_PLAYING+1).get_player().take_a_new_card(card)
+            players.get_ia_player_by_index(machine.INDEX_WHO_IS_PLAYING+1).get_player().add_cart_to_list(card)
         
 class DrawFourCards(Behavior):
     def execute(machine,players):        
@@ -41,7 +41,7 @@ class DrawFourCards(Behavior):
         new_cards = [machine.take_new_card_from_deck() for i in range(0,4)]
         
         for card in new_cards:
-                players.get_ia_player_by_index(machine.INDEX_WHO_IS_PLAYING+1).get_player().take_a_new_card(card)
+                players.get_ia_player_by_index(machine.INDEX_WHO_IS_PLAYING+1).get_player().add_cart_to_list(card)
         
 class ChangeColor(Behavior):
     def execute(machine,players):        
