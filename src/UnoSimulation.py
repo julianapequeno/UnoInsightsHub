@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from CircularVector import CircularVector
-from Machine import Machine
-from PlayerStrategy1 import PlayerStrategy1
+from src.CircularVector import CircularVector
+from src.Machine import Machine
+from src.PlayerStrategy1 import PlayerStrategy1
 
 @dataclass
 class SimulationOutputData:

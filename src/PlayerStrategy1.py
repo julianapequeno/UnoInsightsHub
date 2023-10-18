@@ -1,7 +1,7 @@
 import random
-from ActionCards import ActionCard
-from Card import Card
-from IA_Player import IA_Player
+from src.ActionCards import ActionCard
+from src.Card import Card
+from src.IA_Player import IA_Player
 
 #first strategy for IA_PLAYER
 class PlayerStrategy1(IA_Player):

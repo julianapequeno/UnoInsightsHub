@@ -1,6 +1,6 @@
 import random
-from Card import Card
-from Player import Player
+from src.Card import Card
+from src.Player import Player
 
 class IA_Player():
     

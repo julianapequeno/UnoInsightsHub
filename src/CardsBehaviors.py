@@ -1,7 +1,7 @@
 import random
 from abc import ABC, abstractmethod
 
-from CircularVector import CircularVector
+from src.CircularVector import CircularVector
 
 #abstract class that have only abstract methods -> INTERFACE in python
 class Behavior(ABC):

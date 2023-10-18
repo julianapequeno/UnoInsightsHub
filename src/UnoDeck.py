@@ -1,6 +1,6 @@
-from Card import Card
-from ActionCards import ActionCard
-from CardsBehaviors import *
+from src.Card import Card
+from src.ActionCards import ActionCard
+from src.CardsBehaviors import *
 
 class UnoDeck:
 

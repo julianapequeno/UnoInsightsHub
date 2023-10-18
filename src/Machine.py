@@ -1,5 +1,5 @@
-from Card import Card
-from UnoDeck import UnoDeck
+from src.Card import Card
+from src.UnoDeck import UnoDeck
 
 class Machine: #controller    
     

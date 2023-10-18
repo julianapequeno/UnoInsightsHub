@@ -1,5 +1,5 @@
-from Card import Card
-from CardsBehaviors import Behavior
+from src.Card import Card
+from src.CardsBehaviors import Behavior
 
 #class of ActionCard extends from Card
 class ActionCard(Card):
