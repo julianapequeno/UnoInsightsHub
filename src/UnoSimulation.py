@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from TestSimulationInput import PlayersHandsSimulationTest
 from src.CircularVector import CircularVector
 from src.Machine import Machine
 from src.PlayerStrategy1 import PlayerStrategy1
@@ -17,7 +18,8 @@ class SimulationInputData:
 class UnoSimulation:
     
     STATUS_CAN_PLAY = False
-    
+    IS_ANALYSING_DATA = True
+     
     def __init__(self,input:SimulationInputData):
         self.bot = input.bot
         self.number_of_players = input.number_of_players
@@ -25,7 +27,19 @@ class UnoSimulation:
         
         if(self.STATUS_CAN_PLAY):
             self.IA_PLAYERS_CIRCULAR_VECTOR = input.round_players
+            self.sample_players_first_hands()
             self.initialize_players()
+    
+    def sample_players_first_hands(self):       
+        self.TEST_ONE_ = PlayersHandsSimulationTest(self.number_of_players, self.bot) 
+        hands_of_players_test_ONE = self.TEST_ONE_.test_one_aleatory_sample_players_hands() 
+        self.initial_cards = hands_of_players_test_ONE
+    
+    def players_first_cards(self,i):
+        if self.IS_ANALYSING_DATA:
+            return self.initial_cards[i].copy()
+        else:
+            return self.bot.get_player_first_hand()
     
     def verify_initial_parameters(self):
         self.STATUS_CAN_PLAY = self.bot.can_this_number_of_players_play_uno(self.number_of_players)
@@ -33,18 +47,20 @@ class UnoSimulation:
     def initialize_players(self): 
         self.INITIAL_PLAYERS_CARDS = []
         
+        jj = 0
         for ia_player in self.IA_PLAYERS_CIRCULAR_VECTOR.vector:
             #insert bot into ia_player
             ia_player.insert_uno_machine(self.bot)
             
             #insert cards into players
-            cards = self.bot.get_player_first_hand()
+            cards = self.players_first_cards(jj)
             ia_player.player.setcards(cards)
             
             #storing initial cards
             initial_cards_of_player = [str(n) for n in cards]
             self.INITIAL_PLAYERS_CARDS.insert(i,initial_cards_of_player)
-    
+            jj += 1
+            
     def reset_simulation(self):
         #reset machine
         self.bot.reset_machine()
