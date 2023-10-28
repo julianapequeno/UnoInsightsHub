@@ -1,0 +1,10 @@
+#the following folder
+src/__pycache__/*
+
+src/test.py
+
+fill_table.ipynb
+
+.vscode/
+
+src/UNO_bot.py

@@ -17,7 +17,7 @@ class PlayerStrategy1(IA_Player):
         
         if self.PRIORITY_TO_THROW_ACTION_CARD and self.ACTION_CARDS:
             card = random.sample(self.ACTION_CARDS, 1)
-            print("Prioridade action card -> ", card[0])
+            #print("Prioridade action card -> ", card[0])
             return card[0]
         else:
             card = random.sample(list_of_possible_throws, 1)
