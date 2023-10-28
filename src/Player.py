@@ -24,3 +24,6 @@ class Player:
   
   def add_cart_to_list(self,card):
     self.cards.append(card)
+  
+  def reset_player(self):
+    self.cards.clear()
