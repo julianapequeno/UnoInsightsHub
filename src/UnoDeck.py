@@ -7,6 +7,7 @@ class UnoDeck:
   colors = 'blue yellow red green'.split()
   min_cards_on_deck = 4
   number_of_cards_for_each_player = 7
+  deck_length = 108
   
   def __init__(self):
     self.cards = []
@@ -29,12 +30,14 @@ class UnoDeck:
         self.cards.append(ActionCard('+',color,DrawTwoCards))
         self.cards.append(ActionCard('W',color,DrawFourCards))
         self.cards.append(ActionCard('C',color,ChangeColor))
+    
+    self.CARDS_DEFAULT_DECK = self.cards.copy()
       
   def get_cards_length(self):
     return len(self.cards)
 
   def can_this_number_of_players_play_uno(self, number_of_players):
-    if ((len(self.cards)-self.min_cards_on_deck)/self.number_of_cards_for_each_player) < number_of_players:
+    if ((self.deck_length-self.min_cards_on_deck)/self.number_of_cards_for_each_player) < number_of_players:
         return False
     elif(number_of_players < 1):
         return False
@@ -72,3 +75,10 @@ class UnoDeck:
     hand = random.sample(self.cards,self.number_of_cards_for_each_player)
     self.delete_cards_from_deck(hand)
     return hand 
+  
+  def reset(self,players_input_fixed:list[list[Card]]):
+    self.cards = self.CARDS_DEFAULT_DECK.copy()
+    self.discart_pile = []
+    #deleting initial hands for another simulation
+    for player_input in players_input_fixed:
+      self.delete_cards_from_deck(player_input)
