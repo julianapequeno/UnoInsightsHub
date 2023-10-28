@@ -63,3 +63,6 @@ class IA_Player():
 
     def get_other_players_number_of_cards(self,players_numbers_of_cards):
         self.NEXT_PLAYER_NUMBER_OF_CARDS = players_numbers_of_cards
+
+    def reset_ia_player(self):
+        self.player.reset_player()

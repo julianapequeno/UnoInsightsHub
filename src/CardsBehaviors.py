@@ -46,6 +46,6 @@ class DrawFourCards(Behavior):
                 players.get_ia_player_by_index(machine.INDEX_WHO_IS_PLAYING+1).get_player().add_cart_to_list(card)
     
 class ChangeColor(Behavior):
-    def execute(machine,players):        
+    def execute(machine,players):
         new_color = random.sample(machine.uno_deck.colors,1)
         machine.CURRENTLY_CARD.color = new_color[0]
