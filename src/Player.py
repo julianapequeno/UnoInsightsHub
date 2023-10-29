@@ -13,7 +13,7 @@ class Player:
     return self._name
   
   def setcards(self, value): 
-    self._cards = value
+    self._cards = value[:]
   
   @property
   def cards(self):

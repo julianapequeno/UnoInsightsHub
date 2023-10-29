@@ -42,8 +42,6 @@ class Machine: #controller
         return self.uno_deck.get_a_uno_hand()
     
     def delete_cards_from_deck(self,cards):
-        print('unodeck has ',len(self.uno_deck.cards))
-        print('I want to delete ',cards)
         self.uno_deck.delete_cards_from_deck(cards)
 
     def card_can_be_throw(self,card): 

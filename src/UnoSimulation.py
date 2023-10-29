@@ -19,41 +19,37 @@ class UnoSimulation:
     
     STATUS_CAN_PLAY = False
     IS_ANALYSING_DATA = True
-     
+    INITIAL_PLAYERS_CARDS = []
+    
     def __init__(self,input:SimulationInputData):
         self.bot = input.bot
         self.number_of_players = input.number_of_players
         self.verify_initial_parameters()
         
         if(self.STATUS_CAN_PLAY):
-            print('iUp')
             self.IA_PLAYERS_CIRCULAR_VECTOR = input.round_players
-            self.INITIAL_PLAYERS_CARDS = input.players_cards
-            self.initialize_players(self.INITIAL_PLAYERS_CARDS)
+            self.INITIAL_PLAYERS_CARDS = input.players_cards[:]
+            self.insert_bot_into_players()
     
     def verify_initial_parameters(self):
         self.STATUS_CAN_PLAY = self.bot.can_this_number_of_players_play_uno(self.number_of_players)
     
-    def initialize_players(self,player_cards): 
-        i = 0
+    def insert_bot_into_players(self):
         for ia_player in self.IA_PLAYERS_CIRCULAR_VECTOR.vector:
-            #insert bot into ia_player
             ia_player.insert_uno_machine(self.bot)
-            
-            #insert cards into players
-            cards = player_cards[i]
-            ia_player.player.setcards(cards)
+    
+    def initialize_players_with_cards(self,player_cards): 
+        i = 0
+        for ia_player in self.IA_PLAYERS_CIRCULAR_VECTOR.vector:            
+            ia_player.player.setcards(player_cards[i])
             i += 1
             
     def reset_simulation(self):
-        print(len(self.INITIAL_PLAYERS_CARDS[0]))
-        self.bot.reset_machine(self.INITIAL_PLAYERS_CARDS.copy())
-        
         for ia_player in self.IA_PLAYERS_CIRCULAR_VECTOR.vector:
-            ia_player.reset_ia_player()
-            
-        self.initialize_players(self.INITIAL_PLAYERS_CARDS.copy())
-
+            ia_player.reset_ia_player()  
+        
+        self.bot.reset_machine(self.INITIAL_PLAYERS_CARDS.copy())
+    
         self.CARD_ON_THE_TABLE = None
         self.CURRENTLY_PLAYER = []
         
@@ -66,6 +62,8 @@ class UnoSimulation:
     def round(self) -> SimulationOutputData:
         if self.STATUS_CAN_PLAY:
             
+            self.initialize_players_with_cards(self.INITIAL_PLAYERS_CARDS[:])
+
             self.bot.shuffle_cards()
             self.initialize_game_with_first_card()
             
@@ -99,15 +97,14 @@ class UnoSimulation:
                             
     def simulation_data(self,name):
         initial_hands = []
-        player_h = []
-        
         for player_cards in self.INITIAL_PLAYERS_CARDS:
+            player_h = []
             for card in player_cards:
                 player_h.append(str(card))
             initial_hands.append(player_h)
 
         out = SimulationOutputData(name,initial_hands)
-        self.reset_simulation() #reset the simulation
+        self.reset_simulation()
         return out
 
     def print_cant_run_UNO_error_message(self):
