@@ -55,21 +55,28 @@ class UnoSimulation:
         self.CARD_ON_THE_TABLE = None
         self.CURRENTLY_PLAYER = []
         
-    def initialize_game_with_first_card(self):
-        self.CARD_ON_THE_TABLE =  self.bot.get_game_first_card()
-        self.first_card = copy.copy(self.CARD_ON_THE_TABLE)
+    def initialize_game_with_first_card(self,first_card):
+        if first_card:
+            if self.bot.if_card_on_deck(first_card):
+                self.bot.delete_cards_from_deck(first_card)
+            
+            self.CARD_ON_THE_TABLE = first_card
+            self.first_card = copy.copy(self.CARD_ON_THE_TABLE)
+        else:
+            self.CARD_ON_THE_TABLE =  self.bot.get_game_first_card()
+            self.first_card = copy.copy(self.CARD_ON_THE_TABLE)
         
     def update_currently_player(self):
         self.CURRENTLY_PLAYER = self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(self.bot.INDEX_WHO_IS_PLAYING)
+    
+    def round(self, first_card=None) -> SimulationOutputData:
+        self.first_card = first_card
+        self.initialize_game_with_first_card(self.first_card)
         
-    def round(self) -> SimulationOutputData:
         if self.STATUS_CAN_PLAY:
-            
             self.initialize_players_with_cards(self.INITIAL_PLAYERS_CARDS[:])
-
             self.bot.shuffle_cards()
-            self.initialize_game_with_first_card()
-            
+
             while(True):
                 self.update_currently_player()
                 self.bot.check_if_deck_is_empty_and_refuel_deck()
