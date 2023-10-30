@@ -48,4 +48,5 @@ class DrawFourCards(Behavior):
 class ChangeColor(Behavior):
     def execute(machine,players):
         new_color = random.sample(machine.uno_deck.colors,1)
-        machine.CURRENTLY_CARD.color = new_color[0]
+        machine.CURRENTLY_CARD.extra = new_color[0]
+        #machine.CURRENTLY_CARD.color = new_color[0]

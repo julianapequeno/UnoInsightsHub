@@ -1,5 +1,7 @@
 from src.Card import Card
 from src.UnoDeck import UnoDeck
+from src.WildCard import WildCard
+from src.CardsBehaviors import ChangeColor
 
 class Machine: #controller    
     
@@ -45,8 +47,12 @@ class Machine: #controller
         self.uno_deck.delete_cards_from_deck(cards)
 
     def card_can_be_throw(self,card): 
-        if (card.rank == self.CURRENTLY_CARD.rank) or (card.color == self.CURRENTLY_CARD.color):
-            return True
+        if isinstance(self.CURRENTLY_CARD,WildCard) and isinstance(self.CURRENTLY_CARD.behavior,ChangeColor):
+            if (card.rank == self.CURRENTLY_CARD.rank) or (card.user_choice == self.CURRENTLY_CARD.color):
+                return True
+        else:
+            if (card.rank == self.CURRENTLY_CARD.rank) or (card.color == self.CURRENTLY_CARD.color):
+                return True
         return False  
 
     def check_if_deck_is_empty_and_refuel_deck(self):
@@ -63,3 +69,6 @@ class Machine: #controller
         #draw a brand new card from deck
         self.CURRENTLY_CARD = self.take_new_card_from_deck()
         return self.CURRENTLY_CARD
+    
+    def if_card_on_deck(self,card):
+        return card in self.uno_deck.cards
