@@ -1,6 +1,7 @@
 from src.Card import Card
 from src.ActionCards import ActionCard
 from src.CardsBehaviors import *
+from src.WildCard import WildCard
 
 class UnoDeck:
 
@@ -29,7 +30,7 @@ class UnoDeck:
         self.cards.append(ActionCard('+',color,DrawTwoCards))
         self.cards.append(ActionCard('+',color,DrawTwoCards))
         self.cards.append(ActionCard('W',color,DrawFourCards))
-        self.cards.append(ActionCard('C',color,ChangeColor))
+        self.cards.append(WildCard('C',color,ChangeColor))
     
     self.CARDS_DEFAULT_DECK = self.cards.copy()
       
@@ -53,8 +54,12 @@ class UnoDeck:
     return new_card[0]
 
   def delete_cards_from_deck(self,cards_to_delete):
-    for card in cards_to_delete:
-        self.cards.remove(card)
+    if isinstance(cards_to_delete,Card):
+      self.cards.remove(cards_to_delete)
+      
+    elif isinstance(cards_to_delete,list):
+      for card in cards_to_delete:
+          self.cards.remove(card)
 
   def refuel_deck(self): 
     #getting all remaining cards together 
