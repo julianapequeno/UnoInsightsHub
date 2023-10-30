@@ -2,11 +2,13 @@ from dataclasses import dataclass
 from src.Card import Card
 from src.CircularVector import CircularVector
 from src.Machine import Machine
+import copy
 
 @dataclass
 class SimulationOutputData:
     winner: str
     first_players_hands: list[list[str]]
+    first_card: Card
     
 @dataclass
 class SimulationInputData:
@@ -55,6 +57,7 @@ class UnoSimulation:
         
     def initialize_game_with_first_card(self):
         self.CARD_ON_THE_TABLE =  self.bot.get_game_first_card()
+        self.first_card = copy.copy(self.CARD_ON_THE_TABLE)
         
     def update_currently_player(self):
         self.CURRENTLY_PLAYER = self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(self.bot.INDEX_WHO_IS_PLAYING)
@@ -103,7 +106,7 @@ class UnoSimulation:
                 player_h.append(str(card))
             initial_hands.append(player_h)
 
-        out = SimulationOutputData(name,initial_hands)
+        out = SimulationOutputData(name,initial_hands,self.first_card)
         self.reset_simulation()
         return out
 
