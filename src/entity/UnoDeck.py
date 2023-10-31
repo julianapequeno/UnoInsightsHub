@@ -12,7 +12,7 @@ class UnoDeck:
   
   def __init__(self):
     self.cards = []
-    self.discart_pile = []
+    self.discard_pile = []
     
     #adding common cards to deck
     for color in self.colors:
@@ -63,18 +63,18 @@ class UnoDeck:
 
   def refuel_deck(self): 
     #getting all remaining cards together 
-    self.cards = self.cards+self.discart_pile 
+    self.cards = self.cards+self.discard_pile 
     #get the last one who was thrown 
     first_element_of_new_pile = self.cards.pop(0) 
-    #clear discart pile and append the last card thrown
-    self.discart_pile.clear()
-    self.discart_pile.append(first_element_of_new_pile) 
+    #clear discard pile and append the last card thrown
+    self.discard_pile.clear()
+    self.discard_pile.append(first_element_of_new_pile) 
   
   def shuffle_cards(self):
     random.shuffle(self.cards)
         
-  def discart_a_card(self,card):
-    self.discart_pile.append(card)
+  def discard_a_card(self,card):
+    self.discard_pile.append(card)
         
   def get_a_uno_hand(self):
     hand = random.sample(self.cards,self.number_of_cards_for_each_player)
@@ -83,7 +83,7 @@ class UnoDeck:
   
   def reset(self,players_input_fixed:list[list[Card]]):
     self.cards = self.CARDS_DEFAULT_DECK.copy()
-    self.discart_pile = []
+    self.discard_pile = []
     #deleting initial hands for another simulation
     for player_input in players_input_fixed:
       self.delete_cards_from_deck(player_input)

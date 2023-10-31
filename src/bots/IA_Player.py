@@ -24,7 +24,7 @@ class IA_Player():
         
     def throw_card_away(self,card):
         self.player.delete_card_from_list(card) #deleting in player's hand
-        self.UNO_MACHINE.discart_a_card(card) #adding to the discart pile
+        self.UNO_MACHINE.discard_a_card(card) #adding to the discard pile
 
     def draw_from_deck(self,card):
        self.player.add_cart_to_list(card)

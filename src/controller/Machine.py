@@ -36,8 +36,8 @@ class Machine: #controller
     def update_currently_card(self,card):
         self.CURRENTLY_CARD = card
     
-    def discart_a_card(self,card):
-        self.uno_deck.discart_a_card(card)
+    def discard_a_card(self,card):
+        self.uno_deck.discard_a_card(card)
         self.update_currently_card(card)
 
     def get_player_first_hand(self):
