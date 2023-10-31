@@ -5,7 +5,7 @@ from src.bots.PlayerStrategy1 import PlayerStrategy1
 from src.utils.CircularVector import CircularVector
 from src.entity.ActionCards import ActionCard
 
-class Simulation:
+class SimulationGenerator:
     def __init__(self,number_of_players):    
         self.PLAYERS = self.generating_players()
         self.number_of_players = number_of_players
