@@ -4,12 +4,13 @@ class SimulationInputTest:
         self.n_players = n_players
         self.bot = machine
         
-    def test_one_aleatory_sample_players_hands(self):
-        hands_test_one = []
-        for _ in range(0,self.n_players):
-            hand = self.bot.get_player_first_hand()
-            hands_test_one.append(hand)
-        return hands_test_one
+    def aleatory_sample_player_cards(self,n_samples):
+        if 0 <= n_samples and n_samples <= self.n_players:
+            hands_test_one = []
+            for _ in range(0,n_samples):
+                hand = self.bot.get_player_first_hand()
+                hands_test_one.append(hand)
+            return hands_test_one
     
     def get_game_first_card(self):
         return self.bot.get_game_first_card()

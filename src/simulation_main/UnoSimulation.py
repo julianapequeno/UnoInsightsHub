@@ -69,12 +69,12 @@ class UnoSimulation:
     def update_currently_player(self):
         self.CURRENTLY_PLAYER = self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(self.bot.INDEX_WHO_IS_PLAYING)
     
-    def round(self, first_card=None) -> SimulationOutputData:
+    def round(self, first_card=None,input_players_cards_new_round=None) -> SimulationOutputData:
         self.first_card = first_card
-        self.initialize_game_with_first_card(self.first_card)
+        self.initialize_game_with_first_card(first_card)
         
         if self.STATUS_CAN_PLAY:
-            self.initialize_players_with_cards(self.INITIAL_PLAYERS_CARDS[:])
+            self.initialize_players_with_cards(input_players_cards_new_round)
             self.bot.shuffle_cards()
 
             while(True):
@@ -94,7 +94,7 @@ class UnoSimulation:
                     
                     if(self.player_has_won()): #simulation 
                         name = self.CURRENTLY_PLAYER.get_player_name()
-                        return self.simulation_data(name)
+                        return self.simulation_data(name,input_players_cards_new_round)
                 
                     card_thrown.execute_move(self.bot,self.IA_PLAYERS_CIRCULAR_VECTOR)
                           
@@ -105,9 +105,9 @@ class UnoSimulation:
     def player_has_won(self):
         return self.bot.winner(self.CURRENTLY_PLAYER.get_player_cards())
                             
-    def simulation_data(self,name):
+    def simulation_data(self,name,input_players_cards_new_round):
         initial_hands = []
-        for player_cards in self.INITIAL_PLAYERS_CARDS:
+        for player_cards in input_players_cards_new_round:
             player_h = []
             for card in player_cards:
                 player_h.append(str(card))

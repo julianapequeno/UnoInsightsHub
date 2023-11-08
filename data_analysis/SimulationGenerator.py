@@ -6,10 +6,11 @@ from src.utils.CircularVector import CircularVector
 from src.entity.ActionCards import ActionCard
 
 class SimulationGenerator:
-    def __init__(self,number_of_players):    
+    def __init__(self,number_of_players,n_cards_fixed_input:list):    
         self.PLAYERS = self.generating_players()
         self.number_of_players = number_of_players
         self.bot = Machine()
+        self.number_of_fixed_cards_input = n_cards_fixed_input
         self.CARDS_INPUT_SIMULATION = SimulationInputTest(self.number_of_players, self.bot) 
         
     def generating_players(self) -> CircularVector:
@@ -21,14 +22,24 @@ class SimulationGenerator:
             PLAYERS.add(ia_player)
         return PLAYERS
     
-    def generating_uno_simulation(self):      
-        self.initial_players_cards = self.generating_sample_players_cards()
+    def update_for_new_simulation(self):
+        if self.number_of_fixed_cards_input : 
+            for i in range(0,self.number_of_players):
+                if i not in self.number_of_fixed_cards_input:
+                    new_sample_cards = self.generating_aleatory_samples_players_cards(1)
+                    self.initial_players_cards[i] = new_sample_cards[0]
+        else:
+            self.initial_players_cards = self.generating_aleatory_samples_players_cards(self.number_of_players)
+    
+    def generate_new_simulation_input_sample(self):
+        self.initial_players_cards = self.generating_aleatory_samples_players_cards(self.number_of_players)
+    
+    def generating_uno_simulation(self):           
         simulation_data = SimulationInputData(self.bot,self.PLAYERS,self.number_of_players,self.initial_players_cards.copy())
-
         return UnoSimulation(simulation_data)
     
-    def generating_sample_players_cards(self):
-        return self.CARDS_INPUT_SIMULATION.test_one_aleatory_sample_players_hands() 
+    def generating_aleatory_samples_players_cards(self,number_of_samples):
+        return self.CARDS_INPUT_SIMULATION.aleatory_sample_player_cards(number_of_samples)
     
     def get_game_first_card(self):
         self.FIRST_CARD = self.CARDS_INPUT_SIMULATION.get_game_first_card()
