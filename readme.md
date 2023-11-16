@@ -45,8 +45,10 @@ Bellow, is some outputs of this study.
 
 #### Outputs Relatory
 - w = 10, m = 200, n = 500 <br><br>
-<img src='documents\images\output_w10_m200_n500.png' align='center' height='250'>
-
+<div align='center'>
+<img src='documents\images\output_w10_m200_n500.png' align='center' height='300'>
+</div>
+<br>
 
 **References**: Black Code Formatter [(ref)](https://github.com/psf/black) , <img align="center" alt="python" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"> <img align="center" alt="notebook" height="30" width="40" src="https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg">
 <br>
