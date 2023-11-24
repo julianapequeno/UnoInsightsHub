@@ -2,7 +2,7 @@
     UnoInsightsHub
 </h1>
 
-`UnoInsightsHub` is a computational simulation project made in Python that consists in a model of the famous worldwide game, UNO, applied to some statistical studies. Therefore, it was going to be possible to extract important information and insights out of the endless possibilities of playing and winning the game.
+`UnoInsightsHub` is a computational simulation project made in Python that consists in a model of the famous worldwide game, UNO, applied to some statistical studies. Therefore, it enabled the extraction of important information and insights out of the endless possibilities of playing and winning the game.
 <br>
 For this reason, in this project it was developed an IA that plays UNO and the game's machine itself.
 
