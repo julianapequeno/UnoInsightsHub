@@ -68,6 +68,16 @@ class UnoSimulation:
             self.bot.INDEX_WHO_IS_PLAYING
         )
 
+    def passing_info_about_next_player_to_the_currently(self):
+        next_player_number_of_cards = len(
+            self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(
+                self.bot.INDEX_WHO_IS_PLAYING + 1
+            )
+            .get_player_cards()
+        )
+        self.CURRENTLY_PLAYER.vision_awareness_about_next_player_number_of_card(
+            next_player_number_of_cards)
+
     def round(self) -> SimulationOutputData:
         if self.STATUS_CAN_PLAY:
             self.initialize_players_with_cards()
@@ -81,18 +91,7 @@ class UnoSimulation:
                 self.update_currently_player()
                 self.bot.check_if_deck_is_empty_and_refuel_deck()
 
-                # create a method called awareness in ia_player class
-                next_player_number_of_cards = len(
-                    self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(
-                        self.bot.INDEX_WHO_IS_PLAYING + 1
-                    )
-                    .get_player()
-                    .cards
-                )
-                self.CURRENTLY_PLAYER.get_other_players_number_of_cards(
-                    next_player_number_of_cards
-                )
-                ##
+                self.passing_info_about_next_player_to_the_currently()
 
                 card_thrown = self.CURRENTLY_PLAYER.move()
                 player_passed_their_turn = card_thrown == None
