@@ -36,6 +36,8 @@ class IA_Player:
         if len(list_of_possible_throws) == 0:
             new_card = self.UNO_MACHINE.take_new_card_from_deck()
             self.draw_from_deck(new_card)
+            print('> ', self.get_player_name(), ' has pulled a new card from deck : ', len(
+                self.get_player_cards()) - 1, ' >>> ', len(self.get_player_cards()))
 
             if self.UNO_MACHINE.card_can_be_throw(new_card):
                 return_card = new_card
