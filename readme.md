@@ -1,32 +1,53 @@
 <h1 align="center">
-    UnoInsightsHub
+    UnoInsightsHub | The Model
 </h1>
+
+> **💡Note:**
+> If you are reading this, probably you've already read the readme.md in `main` branch. If it's not the case, I suggest you going there to read the overview of this project.
 
 `UnoInsightsHub` is a computational simulation project made in Python that consists in a model of the famous worldwide game, UNO, applied to some statistical studies. Therefore, it enabled the extraction of important information and insights out of the endless possibilities of playing and winning the game.
 <br>
 For this reason, in this project it was developed an IA that plays UNO and the game's machine itself.
 
-<details>
-<summary>
-  Why did I start this project?
-</summary> <br />
-Furthermore, the project's idea was born with the intention of being a final project of a subject of my grad, the subject is called "Modelling and Computational Simulation" (IMD/UFRN). Then, I used Python and Jupyter Notebook as main technologies because it is what we were using in class, and also, because python is very recommended for data science.
-</details>
-<br>
-<details>
-<summary>
-  Challenges and the beggining...
-</summary> <br />
-I've faced some challenges during the build of the model due to its refactoring. I've begun the project in google colab, and as soon as it got bigger, I'd to change it for VSCode and start working on the refactoring, trying to apply as many good practices as I knew in the project.
-</details>
+- Version 1.0 updates!!📰[(here)](#version-updates)
 
-## Repository Organization
+## How to Use
 
-This repository is organized in 3 branches. They are: `main`,`model` and `playerstrategyone`.
+In this session, I will show you how you can run this version of `UnoInsightsHub`.
+Firstly, this version is the `model` itself. That is, here I implemented a script to be shown when the user run the code. Then, you will be able to see what's happening under the covers.
 
-- `main` is the core branch of this project. It is were all the data analysis and model are.
-- `model` is the branch that contains the latest version of the model, without the configuration with `@dataclasses` to extract an output for the notebooks.
-- `playerstrategyone` is the branch were the player strategy is being developed.
+<div align='center'>
+<i> 🌟 make sure you have python3 installed :)</i>
+</div><br>
+
+First clone this repository.
+
+```cmd
+   git clone https://github.com/julianasantiago100/UnoInsightsHub.git
+```
+
+Change the branch to `model`.
+
+```cmd
+   git checkout model
+```
+
+Then, with the project opened in your local environment, type the following commands in our prompt.
+
+```python
+   cd src/
+```
+
+```python
+   python3 UNOMODEL.py
+```
+
+Now, you will be able to see the script and interact with the program!😊
+
+## Version Updates
+
+<i> Version 1.0 - November 2023</i><br>
+The currently version only has one player strategy implemented. For future features, I'd like to add other strategies and more UNO rules applied.
 
 ## Development
 
@@ -34,11 +55,7 @@ This repository is organized in 3 branches. They are: `main`,`model` and `player
 
 To be able to run the project, make sure that you have the following prerequisites installed: <br>
 
-- Python
-- Jupyter Notebook
-- Pandas
-- Numpy
-- matplotlib
+- Python3
 - Git
 
 #### Choosing your development environment
@@ -67,51 +84,7 @@ For run this project, you should choose whether you want to run it on a local or
 
 </details>
 
-## How to Use
-
-<details>
-<summary>
-   📌Running the model
-</summary> <br />
-If you want to run only the model, you should try this notebook: <code>runmodel.py</code>
-There is some changeable inputs entries for the model, and it'll return an output that can be interpreted and used for further studies.
-<div align='center'>
-<img src='images\runmodel.png'img width="90%" alt='runcode.py screenshot'>
-</div>
-</details>
-
-<details>
-<summary>
-   📌Running the statistics and data analysis notebooks 
-</summary> <br />
-If you want to try or test yourself this notebooks, I strongly recommend you taking Google Colab.
-Next, you will have to use the complete version of this project connected with the analysis part as well. So, download  <a href=data_analysis\notebook\notebook.ipynb>UNOInsightsHub-Data</a> and have fun! <br>
-       🚔Warning: Remember the high complexity!!
-</details>
-
 ## Resouces
 
 - **[documents](documents)** for documentation.
 - **[src](src)** for sorce code.
-- **[data_analysis](data_analysis)** for notebooks and python code.
-- **[tests](tests)** for python code of sample inputs
-- **[images](images)** for readme images.
-
-## Contributors
-
-I would like to thank some people who helped with the project in some of the following fields: code review, code standards and pixel art.<br><br>
-<a href="https://github.com/StefWolf"><img src="https://avatars.githubusercontent.com/u/61637759?v=4" title="yuval-hazaz" width="50" height="50"></a>
-<a href="https://github.com/talis-fb"><img src="https://avatars.githubusercontent.com/u/54823205?v=4" title="yuval-hazaz" width="50" height="50"></a>
-
-## Results
-
-The project results will be added inside of the documentation.
-
-![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![Jupyter Notebook](https://img.shields.io/badge/jupyter-%23FA0F00.svg?style=for-the-badge&logo=jupyter&logoColor=white)
-![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white)
-![Matplotlib](https://img.shields.io/badge/Matplotlib-%23ffffff.svg?style=for-the-badge&logo=Matplotlib&logoColor=black)
-![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)
-![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
