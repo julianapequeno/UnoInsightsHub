@@ -1,141 +1,164 @@
 from dataclasses import dataclass
-from CircularVector import CircularVector
-from Machine import Machine
-from PlayerStrategy1 import PlayerStrategy1
+from entity.Card import Card
+from utils.CircularVector import CircularVector
+from controller.Machine import Machine
+import copy
+
 
 @dataclass
 class SimulationOutputData:
     winner: str
     first_players_hands: list[list[str]]
-    
+    first_card: Card
+
+
 @dataclass
 class SimulationInputData:
     bot: Machine
     round_players: CircularVector
     number_of_players: int
 
+
 class UnoSimulation:
-    
     STATUS_CAN_PLAY = False
-    
-    def __init__(self,input:SimulationInputData):
+    INITIAL_PLAYERS_CARDS = []
+
+    def __init__(self, input: SimulationInputData):
         self.bot = input.bot
         self.number_of_players = input.number_of_players
         self.verify_initial_parameters()
-        
-        if(self.STATUS_CAN_PLAY):
+
+        if self.STATUS_CAN_PLAY:
             self.IA_PLAYERS_CIRCULAR_VECTOR = input.round_players
-            self.initialize_players()
-    
+            self.insert_bot_into_players()
+
     def verify_initial_parameters(self):
-        self.STATUS_CAN_PLAY = self.bot.can_this_number_of_players_play_uno(self.number_of_players)
-    
-    def initialize_players(self): 
-        self.INITIAL_PLAYERS_CARDS = []
-        
+        self.STATUS_CAN_PLAY = self.bot.can_this_number_of_players_play_uno(
+            self.number_of_players
+        )
+
+    def insert_bot_into_players(self):
         for ia_player in self.IA_PLAYERS_CIRCULAR_VECTOR.vector:
-            #insert bot into ia_player
             ia_player.insert_uno_machine(self.bot)
-            
-            #insert cards into players
+
+    def initialize_players_with_cards(self):
+        i = 0
+        for ia_player in self.IA_PLAYERS_CIRCULAR_VECTOR.vector:
             cards = self.bot.get_player_first_hand()
             ia_player.player.setcards(cards)
-            
-            #storing initial cards
-            initial_cards_of_player = [str(n) for n in cards]
-            self.INITIAL_PLAYERS_CARDS.insert(i,initial_cards_of_player)
-    
+            self.INITIAL_PLAYERS_CARDS.append(
+                list(map(lambda x: (str(x)), cards)))
+            i += 1
+
     def reset_simulation(self):
-        #reset machine
+        for ia_player in self.IA_PLAYERS_CIRCULAR_VECTOR.vector:
+            ia_player.reset_ia_player()
+
         self.bot.reset_machine()
-        
-        #reset mainly variables
+
         self.CARD_ON_THE_TABLE = None
         self.CURRENTLY_PLAYER = []
-        self.INITIAL_PLAYERS_CARDS = []
-        
+
     def initialize_game_with_first_card(self):
-        self.CARD_ON_THE_TABLE =  self.bot.get_game_first_card()
-        
+        self.CARD_ON_THE_TABLE = self.bot.get_game_first_card()
+        self.first_card = copy.copy(self.CARD_ON_THE_TABLE)
+
     def update_currently_player(self):
-        self.CURRENTLY_PLAYER = self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(self.bot.INDEX_WHO_IS_PLAYING)
-        
+        self.CURRENTLY_PLAYER = self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(
+            self.bot.INDEX_WHO_IS_PLAYING
+        )
+
+    def passing_info_about_next_player_to_the_currently(self):
+        next_player_number_of_cards = len(
+            self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(
+                self.bot.INDEX_WHO_IS_PLAYING + 1
+            )
+            .get_player_cards()
+        )
+        self.CURRENTLY_PLAYER.vision_awareness_about_next_player_number_of_card(
+            next_player_number_of_cards)
+
     def round(self) -> SimulationOutputData:
         if self.STATUS_CAN_PLAY:
+            self.initialize_players_with_cards()
             self.print_simulation_scrip()
-            
+
             self.bot.shuffle_cards()
             self.initialize_game_with_first_card()
-            
+
             self.print_game_beggining(self.CARD_ON_THE_TABLE)
-            
-            while(True):
+            while True:
                 self.update_currently_player()
                 self.bot.check_if_deck_is_empty_and_refuel_deck()
-                card_thrown = self.CURRENTLY_PLAYER.move()
-                
-                if card_thrown != None: #player's not passed his turn 
-                    self.CARD_ON_THE_TABLE = card_thrown
-                    print(self.CURRENTLY_PLAYER.get_player_name()," > ",self.CARD_ON_THE_TABLE)
-                    self.check_if_is_uno()
-                    
-                    if(self.player_has_won()): #simulation 
-                        print(self.CURRENTLY_PLAYER.get_player_name()+' won the game')
 
+                self.passing_info_about_next_player_to_the_currently()
+
+                card_thrown = self.CURRENTLY_PLAYER.move()
+                player_passed_their_turn = card_thrown == None
+
+                if not player_passed_their_turn:
+                    self.CARD_ON_THE_TABLE = card_thrown
+                    self.print_card_thrown(card_thrown)
+                    self.check_if_it_is_uno()
+
+                    if self.player_has_won():
                         name = self.CURRENTLY_PLAYER.get_player_name()
                         return self.simulation_data(name)
-                
-                    card_thrown.execute_move(self.bot,self.IA_PLAYERS_CIRCULAR_VECTOR)
-                
+
+                    card_thrown.execute_move(
+                        self.bot, self.IA_PLAYERS_CIRCULAR_VECTOR)
                 else:
-                    print(self.CURRENTLY_PLAYER.get_player_name()+" has passed their turn")
-                
+                    self.print_player_passed_their_turn()
+
                 self.bot.INDEX_WHO_IS_PLAYING += 1
         else:
             self.print_cant_run_UNO_error_message()
             return None
-    
-    def check_if_is_uno(self):
-        if(self.bot.is_UNO(self.CURRENTLY_PLAYER.get_player_cards())): 
-            print("UNO!! - "+self.CURRENTLY_PLAYER.get_player_name())
-                
+
     def player_has_won(self):
-        return self.bot.winner(self.CURRENTLY_PLAYER.get_player_cards())
-                            
-    def simulation_data(self,name):
-        initial_hands = self.INITIAL_PLAYERS_CARDS
-        out = SimulationOutputData(name,initial_hands)
-        self.reset_simulation() #reset the simulation
+        if self.bot.winner(self.CURRENTLY_PLAYER.get_player_cards()):
+            print(self.CURRENTLY_PLAYER.get_player_name()+' won the game')
+            return True
+        else:
+            return False
+
+    def simulation_data(self, name):
+        out = SimulationOutputData(
+            name, self.INITIAL_PLAYERS_CARDS, self.first_card)
+        self.reset_simulation()
         return out
-    
+
+    def print_player_passed_their_turn(self):
+        print(self.CURRENTLY_PLAYER.get_player_name()+" has passed their turn")
+
     def print_simulation_scrip(self):
         print(">>>>>>>>> Launching UNO")
         print(f"Simulating with {self.number_of_players} players")
         print("* PLAYERS INITIAL CARDS: ")
-        
+
         print(self.IA_PLAYERS_CIRCULAR_VECTOR)
         for i in range(0, self.number_of_players):
-            print(">>>> Player ",i)
+            print(">>>> Player ", i)
             for card in self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(i).get_player_cards():
                 print(f"Card [{card.rank},{card.color}]")
 
-    def print_game_beggining(self,card):
-        print(">> INITIAL CARD: ",str(card))
+    def print_game_beggining(self, card):
+        print(">> INITIAL CARD: ", str(card))
         print(">>>>>>>>>>>>>>>>> GAME BEGINS")
 
+    def print_card_thrown(self, card):
+        print('> ', self.CURRENTLY_PLAYER.get_player_name(),
+              ' has thrown ', self.CARD_ON_THE_TABLE)
+
+    def print_game_beggining(self, card):
+        print(">> INITIAL CARD: ", str(card))
+        print(">>>>>>>>>>>>>>>>> GAME BEGINS")
+
+    def check_if_it_is_uno(self):
+        if (self.bot.is_UNO(self.CURRENTLY_PLAYER.get_player_cards())):
+            print("UNO! - "+self.CURRENTLY_PLAYER.get_player_name())
+
     def print_cant_run_UNO_error_message(self):
-        print("Sorry. The number of players is either exceding the limit or under the minimum number")
-    
-if __name__=='__main__':
-    UNO_MACHINE = Machine()
-    PLAYERS = CircularVector(4)
-    
-    for i in range(0,4):
-        player_name = "Player "+str(i)
-        ia_player = PlayerStrategy1(player_name)
-        PLAYERS.add(ia_player)
-            
-    simulation_data = SimulationInputData(UNO_MACHINE,PLAYERS,4)
-    
-    uno = UnoSimulation(simulation_data)
-    uno.round()
+        print(
+            "Sorry. The number of players is either exceding the limit or under the minimum number"
+        )
