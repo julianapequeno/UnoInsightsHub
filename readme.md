@@ -20,6 +20,14 @@ Furthermore, the project's idea was born with the intention of being a final pro
 I've faced some challenges during the build of the model due to its refactoring. I've begun the project in google colab, and as soon as it got bigger, I'd to change it for VSCode and start working on the refactoring, trying to apply as many good practices as I knew in the project.
 </details>
 
+## Repository Organization
+
+This repository is organized in 3 branches. They are: `main`,`model` and `playerstrategyone`.
+
+- `main` is the core branch of this project. It is were all the data analysis and model are.
+- `model` is the branch that contains the latest version of the model, without the configuration with `@dataclasses` to extract an output for the notebooks.
+- `playerstrategyone` is the branch were the player strategy is being developed.
+
 ## Development
 
 #### 📌 Pre-requisites
@@ -83,11 +91,21 @@ Next, you will have to use the complete version of this project connected with t
 
 ## Resouces
 
-## Contributing
+- **[documents](documents)** for documentation.
+- **[src](src)** for sorce code.
+- **[data_analysis](data_analysis)** for notebooks and python code.
+- **[tests](tests)** for python code of sample inputs
+- **[images](images)** for readme images.
+
+## Contributors
+
+I would like to thank some people who helped with the project in some of the following fields: code review, code standards and pixel art.<br><br>
+<a href="https://github.com/StefWolf"><img src="https://avatars.githubusercontent.com/u/61637759?v=4" title="yuval-hazaz" width="50" height="50"></a>
+<a href="https://github.com/talis-fb"><img src="https://avatars.githubusercontent.com/u/54823205?v=4" title="yuval-hazaz" width="50" height="50"></a>
 
 ## Results
 
-....
+The project results will be added inside of the documentation.
 
 ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
