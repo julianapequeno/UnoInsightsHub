@@ -1,13 +1,11 @@
 # imported
-
-
 class CircularVector:
     def __init__(self, size):
         self.size = size
         self.vector = [None] * size
-        self.begin = 0  # Índice de início
-        self.end = 0  # Índice de end
-        self.currently_size = 0  # Tamnho atual do vector
+        self.begin = 0
+        self.end = 0
+        self.currently_size = 0
 
     def add(self, element):
         if self.currently_size < self.size:

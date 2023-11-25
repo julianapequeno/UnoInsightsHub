@@ -1,7 +1,7 @@
 import random
 from abc import ABC, abstractmethod
 
-from src.utils.CircularVector import CircularVector
+from utils.CircularVector import CircularVector
 
 
 # abstract class that have only abstract methods -> INTERFACE in python
@@ -18,7 +18,7 @@ class BlockNextPlayer(Behavior):
 
 class Reverse(Behavior):
     def execute(machine, players):
-        ##getting the last player's position on vector
+        # getting the last player's position on vector
         currently_player_name = (
             players.vector[machine.INDEX_WHO_IS_PLAYING % len(players)]
             .get_player()
@@ -26,7 +26,7 @@ class Reverse(Behavior):
         )
         currently_player_number = int(currently_player_name[1])
 
-        ##reversing vector
+        # reversing vector
         players.vector.reverse()
 
         # updating vector by currently player index
@@ -65,4 +65,3 @@ class ChangeColor(Behavior):
     def execute(machine, players):
         new_color = random.sample(machine.uno_deck.colors, 1)
         machine.CURRENTLY_CARD.extra = new_color[0]
-        # machine.CURRENTLY_CARD.color = new_color[0]

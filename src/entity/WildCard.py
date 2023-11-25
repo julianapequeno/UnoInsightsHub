@@ -1,5 +1,5 @@
-from src.entity.Card import Card
-from src.entity.CardsBehaviors import Behavior
+from entity.Card import Card
+from entity.CardsBehaviors import Behavior
 
 
 class WildCard(Card):

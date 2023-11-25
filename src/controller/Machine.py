@@ -1,17 +1,17 @@
-from src.entity.Card import Card
-from src.entity.UnoDeck import UnoDeck
-from src.entity.WildCard import WildCard
-from src.entity.CardsBehaviors import ChangeColor
+from entity.Card import Card
+from entity.UnoDeck import UnoDeck
+from entity.WildCard import WildCard
+from entity.CardsBehaviors import ChangeColor
 
 
-class Machine:  # controller
+class Machine:
     def __init__(self):
         self.uno_deck = UnoDeck()
         self.CURRENTLY_CARD: Card
         self.INDEX_WHO_IS_PLAYING = 0
 
-    def reset_machine(self, players_input_fixed):
-        self.uno_deck.reset(players_input_fixed)
+    def reset_machine(self):
+        self.uno_deck.reset()
         self.CURRENTLY_CARD: Card
         self.INDEX_WHO_IS_PLAYING = 0
 
@@ -72,7 +72,6 @@ class Machine:  # controller
         return len(cards) == 0
 
     def get_game_first_card(self):
-        # draw a brand new card from deck
         self.CURRENTLY_CARD = self.take_new_card_from_deck()
         return self.CURRENTLY_CARD
 

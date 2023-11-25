@@ -1,7 +1,7 @@
-from src.entity.Card import Card
-from src.entity.ActionCards import ActionCard
-from src.entity.CardsBehaviors import *
-from src.entity.WildCard import WildCard
+from entity.Card import Card
+from entity.ActionCards import ActionCard
+from entity.CardsBehaviors import *
+from entity.WildCard import WildCard
 
 
 class UnoDeck:
@@ -84,9 +84,6 @@ class UnoDeck:
         self.delete_cards_from_deck(hand)
         return hand
 
-    def reset(self, players_input_fixed: list[list[Card]]):
+    def reset(self):
         self.cards = self.CARDS_DEFAULT_DECK.copy()
         self.discard_pile = []
-        # deleting initial hands for another simulation
-        for player_input in players_input_fixed:
-            self.delete_cards_from_deck(player_input)

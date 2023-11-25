@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from src.entity.Card import Card
-from src.utils.CircularVector import CircularVector
-from src.controller.Machine import Machine
+from entity.Card import Card
+from utils.CircularVector import CircularVector
+from controller.Machine import Machine
 import copy
 
 
@@ -17,12 +17,10 @@ class SimulationInputData:
     bot: Machine
     round_players: CircularVector
     number_of_players: int
-    players_cards: list[list[Card]]
 
 
 class UnoSimulation:
     STATUS_CAN_PLAY = False
-    IS_ANALYSING_DATA = True
     INITIAL_PLAYERS_CARDS = []
 
     def __init__(self, input: SimulationInputData):
@@ -32,7 +30,6 @@ class UnoSimulation:
 
         if self.STATUS_CAN_PLAY:
             self.IA_PLAYERS_CIRCULAR_VECTOR = input.round_players
-            self.INITIAL_PLAYERS_CARDS = input.players_cards[:]
             self.insert_bot_into_players()
 
     def verify_initial_parameters(self):
@@ -44,52 +41,43 @@ class UnoSimulation:
         for ia_player in self.IA_PLAYERS_CIRCULAR_VECTOR.vector:
             ia_player.insert_uno_machine(self.bot)
 
-    def initialize_players_with_cards(self, player_cards):
+    def initialize_players_with_cards(self):
         i = 0
         for ia_player in self.IA_PLAYERS_CIRCULAR_VECTOR.vector:
-            ia_player.player.setcards(player_cards[i])
+            cards = self.bot.get_player_first_hand()
+            ia_player.player.setcards(cards)
+            self.INITIAL_PLAYERS_CARDS.append(
+                list(map(lambda x: (str(x)), cards)))
             i += 1
 
     def reset_simulation(self):
         for ia_player in self.IA_PLAYERS_CIRCULAR_VECTOR.vector:
             ia_player.reset_ia_player()
 
-        self.bot.reset_machine(self.INITIAL_PLAYERS_CARDS.copy())
+        self.bot.reset_machine()
 
         self.CARD_ON_THE_TABLE = None
         self.CURRENTLY_PLAYER = []
 
-    def initialize_game_with_first_card(self, first_card):
-        if first_card:
-            if self.bot.if_card_on_deck(first_card):
-                self.bot.delete_cards_from_deck(first_card)
-
-            self.CARD_ON_THE_TABLE = first_card
-            self.first_card = copy.copy(self.CARD_ON_THE_TABLE)
-        else:
-            self.CARD_ON_THE_TABLE = self.bot.get_game_first_card()
-            self.first_card = copy.copy(self.CARD_ON_THE_TABLE)
+    def initialize_game_with_first_card(self):
+        self.CARD_ON_THE_TABLE = self.bot.get_game_first_card()
+        self.first_card = copy.copy(self.CARD_ON_THE_TABLE)
 
     def update_currently_player(self):
         self.CURRENTLY_PLAYER = self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(
             self.bot.INDEX_WHO_IS_PLAYING
         )
 
-    def round(
-        self, first_card=None, input_players_cards_new_round=None
-    ) -> SimulationOutputData:
-        self.first_card = first_card
-        self.initialize_game_with_first_card(first_card)
-
+    def round(self) -> SimulationOutputData:
         if self.STATUS_CAN_PLAY:
-            self.initialize_players_with_cards(input_players_cards_new_round)
+            self.initialize_players_with_cards()
             self.bot.shuffle_cards()
 
             while True:
                 self.update_currently_player()
                 self.bot.check_if_deck_is_empty_and_refuel_deck()
 
-                ##
+                # create a method called awareness in ia_player class
                 next_player_number_of_cards = len(
                     self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(
                         self.bot.INDEX_WHO_IS_PLAYING + 1
@@ -108,11 +96,12 @@ class UnoSimulation:
                 if not player_passed_their_turn:
                     self.CARD_ON_THE_TABLE = card_thrown
 
-                    if self.player_has_won():  # simulation
+                    if self.player_has_won():
                         name = self.CURRENTLY_PLAYER.get_player_name()
-                        return self.simulation_data(name, input_players_cards_new_round)
+                        return self.simulation_data(name)
 
-                    card_thrown.execute_move(self.bot, self.IA_PLAYERS_CIRCULAR_VECTOR)
+                    card_thrown.execute_move(
+                        self.bot, self.IA_PLAYERS_CIRCULAR_VECTOR)
 
                 self.bot.INDEX_WHO_IS_PLAYING += 1
         else:
@@ -121,15 +110,9 @@ class UnoSimulation:
     def player_has_won(self):
         return self.bot.winner(self.CURRENTLY_PLAYER.get_player_cards())
 
-    def simulation_data(self, name, input_players_cards_new_round):
-        initial_hands = []
-        for player_cards in input_players_cards_new_round:
-            player_h = []
-            for card in player_cards:
-                player_h.append(str(card))
-            initial_hands.append(player_h)
-
-        out = SimulationOutputData(name, initial_hands, self.first_card)
+    def simulation_data(self, name):
+        out = SimulationOutputData(
+            name, self.INITIAL_PLAYERS_CARDS, self.first_card)
         self.reset_simulation()
         return out
 
