@@ -148,7 +148,7 @@ class UnoSimulation:
         print(">>>>>>>>>>>>>>>>> GAME BEGINS")
 
     def print_card_thrown(self, card):
-        print(self.CURRENTLY_PLAYER.get_player_name(),
+        print('> ', self.CURRENTLY_PLAYER.get_player_name(),
               ' has thrown ', self.CARD_ON_THE_TABLE)
 
     def print_game_beggining(self, card):
@@ -157,7 +157,7 @@ class UnoSimulation:
 
     def check_if_it_is_uno(self):
         if (self.bot.is_UNO(self.CURRENTLY_PLAYER.get_player_cards())):
-            print("UNO!! - "+self.CURRENTLY_PLAYER.get_player_name())
+            print("UNO! - "+self.CURRENTLY_PLAYER.get_player_name())
 
     def print_cant_run_UNO_error_message(self):
         print(
