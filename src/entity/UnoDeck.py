@@ -84,9 +84,10 @@ class UnoDeck:
         self.delete_cards_from_deck(hand)
         return hand
 
-    def reset(self, players_input_fixed: list[list[Card]]):
+    def reset(self, is_analysis, players_input_fixed: list[list[Card]]):
         self.cards = self.CARDS_DEFAULT_DECK.copy()
         self.discard_pile = []
-        # deleting initial hands for another simulation
-        for player_input in players_input_fixed:
-            self.delete_cards_from_deck(player_input)
+
+        if is_analysis:
+            for player_input in players_input_fixed:
+                self.delete_cards_from_deck(player_input)

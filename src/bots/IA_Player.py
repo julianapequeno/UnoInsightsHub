@@ -68,3 +68,8 @@ class IA_Player:
 
     def reset_ia_player(self):
         self.player.reset_player()
+
+    def vision_awareness_about_next_player_number_of_card(self, next_player_number_of_cards):
+        self.get_other_players_number_of_cards(
+            next_player_number_of_cards
+        )
