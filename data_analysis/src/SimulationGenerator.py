@@ -29,7 +29,8 @@ class SimulationGenerator:
         if self.number_of_fixed_cards_input:
             for i in range(0, self.number_of_players):
                 if i not in self.number_of_fixed_cards_input:
-                    new_sample_cards = self.generating_aleatory_samples_players_cards(1)
+                    new_sample_cards = self.generating_aleatory_samples_players_cards(
+                        1)
                     self.initial_players_cards[i] = new_sample_cards[0]
         else:
             self.initial_players_cards = self.generating_aleatory_samples_players_cards(
@@ -46,7 +47,6 @@ class SimulationGenerator:
             self.bot,
             self.PLAYERS,
             self.number_of_players,
-            self.initial_players_cards.copy(),
         )
         return UnoSimulation(simulation_data)
 
