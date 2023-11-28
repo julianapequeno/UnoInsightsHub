@@ -17,13 +17,10 @@ class SimulationInputData:
     bot: Machine
     round_players: CircularVector
     number_of_players: int
-    players_cards: list[list[Card]]
 
 
 class UnoSimulation:
-    STATUS_CAN_PLAY = False
-    IS_ANALYSING_DATA = True
-    INITIAL_PLAYERS_CARDS = []
+    STATUS_CAN_PLAY: bool
 
     def __init__(self, input: SimulationInputData):
         self.bot = input.bot
@@ -32,7 +29,6 @@ class UnoSimulation:
 
         if self.STATUS_CAN_PLAY:
             self.IA_PLAYERS_CIRCULAR_VECTOR = input.round_players
-            self.INITIAL_PLAYERS_CARDS = input.players_cards[:]
             self.insert_bot_into_players()
 
     def verify_initial_parameters(self):
@@ -50,11 +46,12 @@ class UnoSimulation:
             ia_player.player.setcards(player_cards[i])
             i += 1
 
+    def reset_machine_with_new_hands_samples(self, hands_players):
+        self.bot.reset_machine(hands_players)
+
     def reset_simulation(self):
         for ia_player in self.IA_PLAYERS_CIRCULAR_VECTOR.vector:
             ia_player.reset_ia_player()
-
-        self.bot.reset_machine(self.INITIAL_PLAYERS_CARDS.copy())
 
         self.CARD_ON_THE_TABLE = None
         self.CURRENTLY_PLAYER = []
@@ -76,8 +73,10 @@ class UnoSimulation:
         )
 
     def round(
-        self, first_card=None, input_players_cards_new_round=None
+        self, first_card=Card, input_players_cards_new_round=list[list[Card]]
     ) -> SimulationOutputData:
+        self.reset_machine_with_new_hands_samples(
+            input_players_cards_new_round)
         self.first_card = first_card
         self.initialize_game_with_first_card(first_card)
 
@@ -112,7 +111,8 @@ class UnoSimulation:
                         name = self.CURRENTLY_PLAYER.get_player_name()
                         return self.simulation_data(name, input_players_cards_new_round)
 
-                    card_thrown.execute_move(self.bot, self.IA_PLAYERS_CIRCULAR_VECTOR)
+                    card_thrown.execute_move(
+                        self.bot, self.IA_PLAYERS_CIRCULAR_VECTOR)
 
                 self.bot.INDEX_WHO_IS_PLAYING += 1
         else:
