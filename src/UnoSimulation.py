@@ -45,12 +45,12 @@ class UnoSimulation:
             ia_player.insert_uno_machine(self.bot)
 
     def initialize_players_with_cards(self, player_cards):
-        if self.IS_ANALYSING_DATA:
+        if self.IS_ANALYSING_DATA and (player_cards is not None):
             self.INITIAL_PLAYERS_CARDS = player_cards[:]
 
         i = 0
         for ia_player in self.IA_PLAYERS_CIRCULAR_VECTOR.vector:
-            if self.IS_ANALYSING_DATA:
+            if self.IS_ANALYSING_DATA and (player_cards is not None):
                 ia_player.player.setcards(player_cards[i])
             else:
                 self.generate_player_cards(ia_player)
