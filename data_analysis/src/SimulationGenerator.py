@@ -1,4 +1,4 @@
-from src.simulation_main.UnoSimulation import UnoSimulation, SimulationInputData
+from src.UnoSimulation import UnoSimulation, SimulationInputData
 from tests.SimulationInputTest import SimulationInputTest
 from src.controller.Machine import Machine
 from src.bots.PlayerStrategy1 import PlayerStrategy1
@@ -47,6 +47,8 @@ class SimulationGenerator:
             self.bot,
             self.PLAYERS,
             self.number_of_players,
+            self.initial_players_cards.copy(),
+            True,
         )
         return UnoSimulation(simulation_data)
 

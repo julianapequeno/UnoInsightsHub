@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from data_analysis.SimulationGenerator import SimulationGenerator
+from data_analysis.src.SimulationGenerator import SimulationGenerator
 
 
 @dataclass
@@ -10,7 +10,7 @@ class UNO_MODE:
     NUMBER_OF_SIMULATIONS: int
 
 
-class SimulationExecutor :
+class SimulationExecutor:
 
     def __init__(self, input: UNO_MODE):
         self.probabilities_list = []
