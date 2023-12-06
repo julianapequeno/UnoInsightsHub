@@ -4,14 +4,14 @@ from src.entity.WildCard import WildCard
 from src.entity.CardsBehaviors import ChangeColor
 
 
-class Machine:  # controller
+class Machine:
     def __init__(self):
         self.uno_deck = UnoDeck()
         self.CURRENTLY_CARD: Card
         self.INDEX_WHO_IS_PLAYING = 0
 
-    def reset_machine(self, is_analysis, players_input_fixed):
-        self.uno_deck.reset(is_analysis, players_input_fixed)
+    def reset_machine(self, is_analysis, players_hands_cards):
+        self.uno_deck.reset(is_analysis, players_hands_cards)
         self.CURRENTLY_CARD: Card
         self.INDEX_WHO_IS_PLAYING = 0
 
