@@ -1,10 +1,9 @@
-import random
-from abc import ABC, abstractmethod
-
 from src.utils.CircularVector import CircularVector
+from abc import ABC, abstractmethod
+import random
+import logging
 
 
-# abstract class that have only abstract methods -> INTERFACE in python
 class Behavior(ABC):
     @abstractmethod
     def execute(machine, players: CircularVector):
@@ -15,10 +14,13 @@ class BlockNextPlayer(Behavior):
     def execute(machine, players):
         machine.INDEX_WHO_IS_PLAYING += 1
 
+        logging.debug(
+            f'{players.get_ia_player_by_index(machine.INDEX_WHO_IS_PLAYING).get_player_name()} was blocked')
+
 
 class Reverse(Behavior):
     def execute(machine, players):
-        ##getting the last player's position on vector
+        # getting the last player's position on vector
         currently_player_name = (
             players.vector[machine.INDEX_WHO_IS_PLAYING % len(players)]
             .get_player()
@@ -26,13 +28,16 @@ class Reverse(Behavior):
         )
         currently_player_number = int(currently_player_name[1])
 
-        ##reversing vector
+        # reversing vector
         players.vector.reverse()
 
         # updating vector by currently player index
         machine.INDEX_WHO_IS_PLAYING = players.get_vector_of_numbers().index(
             currently_player_number
         )
+
+        logging.debug(
+            f'Reverse Card. Now the order is: {list(map(lambda ia_player: ia_player.get_player_name(),players.vector))}')
 
 
 class DrawTwoCards(Behavior):
@@ -47,6 +52,9 @@ class DrawTwoCards(Behavior):
                 machine.INDEX_WHO_IS_PLAYING + 1
             ).get_player().add_cart_to_list(card)
 
+        logging.debug(
+            f'{players.get_ia_player_by_index(machine.INDEX_WHO_IS_PLAYING+1).get_player_name()} must take +2 cards from deck')
+
 
 class DrawFourCards(Behavior):
     def execute(machine, players):
@@ -60,9 +68,14 @@ class DrawFourCards(Behavior):
                 machine.INDEX_WHO_IS_PLAYING + 1
             ).get_player().add_cart_to_list(card)
 
+        logging.debug(
+            f'{players.get_ia_player_by_index(machine.INDEX_WHO_IS_PLAYING+1).get_player_name()} must take +4 cards from deck')
+
 
 class ChangeColor(Behavior):
     def execute(machine, players):
         new_color = random.sample(machine.uno_deck.colors, 1)
         machine.CURRENTLY_CARD.extra = new_color[0]
         # machine.CURRENTLY_CARD.color = new_color[0]
+        logging.debug(
+            f'{players.get_ia_player_by_index(machine.INDEX_WHO_IS_PLAYING).get_player_name()} chose {new_color[0]}')
