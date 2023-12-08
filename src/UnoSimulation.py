@@ -3,6 +3,7 @@ from src.entity.Card import Card
 from src.utils.CircularVector import CircularVector
 from src.controller.Machine import Machine
 import copy
+import logging
 
 
 @dataclass
@@ -24,6 +25,12 @@ class SimulationInputData:
 class UnoSimulation:
     STATUS_CAN_PLAY = False
     INITIAL_PLAYERS_CARDS = []
+
+    logging.basicConfig(
+        level=logging.DEBUG,
+        filemode='w',
+        filename="logs\loggingfile.log"
+    )
 
     def __init__(self, input: SimulationInputData):
         self.bot = input.bot
@@ -105,9 +112,16 @@ class UnoSimulation:
         self, first_card=None, input_players_cards_new_round=None
     ) -> SimulationOutputData:
         self.first_card = first_card
+        logging.info('Starting new round...')
+        logging.info(f'>> Number of players {self.number_of_players} players ')
+        logging.info(f'IS_ANALYSING_DATA = {self.IS_ANALYSING_DATA}')
 
         if self.STATUS_CAN_PLAY:
             self.initialize_players_with_cards(input_players_cards_new_round)
+
+            for p in self.IA_PLAYERS_CIRCULAR_VECTOR.vector:
+                logging.info(
+                    f'>> {p.get_player_name()} initial cards[{len(p.get_player_cards())}c]: {list(map(lambda x: str(x),p.get_player_cards()))}')
 
             self.bot.shuffle_cards()
             self.initialize_game_with_first_card(first_card)
@@ -124,13 +138,22 @@ class UnoSimulation:
                 if not player_passed_their_turn:
                     self.CARD_ON_THE_TABLE = card_thrown
 
+                    logging.info(
+                        f'{self.CURRENTLY_PLAYER.get_player_name()}[{len(self.CURRENTLY_PLAYER.get_player_cards())+1}c] > {card_thrown}')
+
                     if self.player_has_won():
+
+                        logging.info(
+                            f'{self.CURRENTLY_PLAYER.get_player_name()} has won')
+
                         name = self.CURRENTLY_PLAYER.get_player_name()
                         return self.simulation_data(name)
 
                     card_thrown.execute_move(
                         self.bot, self.IA_PLAYERS_CIRCULAR_VECTOR)
-
+                else:
+                    logging.info(
+                        f'{self.CURRENTLY_PLAYER.get_player_name()}[{len(self.CURRENTLY_PLAYER.get_player_cards())}c] has passed their turn.')
                 self.bot.INDEX_WHO_IS_PLAYING += 1
         else:
             return None

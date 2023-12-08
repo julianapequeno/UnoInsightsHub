@@ -47,12 +47,11 @@ class Machine:
         self.uno_deck.delete_cards_from_deck(cards)
 
     def card_can_be_throw(self, card):
-        if isinstance(self.CURRENTLY_CARD, WildCard) and isinstance(
-            self.CURRENTLY_CARD.behavior, ChangeColor
-        ):
-            if (card.rank == self.CURRENTLY_CARD.rank) or (
-                card.user_choice == self.CURRENTLY_CARD.color
-            ):
+        if isinstance(self.CURRENTLY_CARD, WildCard):
+            is_change_color_card = (card.rank == self.CURRENTLY_CARD.rank)
+            has_same_color = (card.color == self.CURRENTLY_CARD.user_choice)
+
+            if is_change_color_card or has_same_color:
                 return True
         else:
             if (card.rank == self.CURRENTLY_CARD.rank) or (
@@ -72,8 +71,13 @@ class Machine:
         return len(cards) == 0
 
     def get_game_first_card(self):
-        # draw a brand new card from deck
         self.CURRENTLY_CARD = self.take_new_card_from_deck()
+
+        # if the game's started with a changecolor card, the next user should verify
+        # the compatibility with the user_choice due to another method in this same class
+        if isinstance(self.CURRENTLY_CARD, WildCard):
+            self.CURRENTLY_CARD.user_choice = self.CURRENTLY_CARD.color
+
         return self.CURRENTLY_CARD
 
     def if_card_on_deck(self, card):

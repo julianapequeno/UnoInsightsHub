@@ -1,6 +1,7 @@
 import random
 from src.entity.Card import Card
 from src.entity.Player import Player
+import logging
 
 
 class IA_Player:
@@ -23,19 +24,21 @@ class IA_Player:
         return self.player.cards
 
     def throw_card_away(self, card):
-        self.player.delete_card_from_list(card)  # deleting in player's hand
-        self.UNO_MACHINE.discard_a_card(card)  # adding to the discard pile
+        self.player.delete_card_from_list(card)
+        self.UNO_MACHINE.discard_a_card(card)
 
     def draw_from_deck(self, card):
         self.player.add_cart_to_list(card)
 
-    def move(self) -> Card:  # the player's move
+    def move(self) -> Card:
         list_of_possible_throws = self.possible_player_card_throws()
         return_card = None
 
-        if len(list_of_possible_throws) == 0:  # user takes another card
+        if len(list_of_possible_throws) == 0:
             new_card = self.UNO_MACHINE.take_new_card_from_deck()
             self.draw_from_deck(new_card)
+
+            logging.info(f'{self.player.name} pulled a card (+1)')
 
             if self.UNO_MACHINE.card_can_be_throw(new_card):
                 return_card = new_card
