@@ -75,7 +75,7 @@ class DrawFourCards(Behavior):
 class ChangeColor(Behavior):
     def execute(machine, players):
         new_color = random.sample(machine.uno_deck.colors, 1)
-        machine.CURRENTLY_CARD.extra = new_color[0]
+        machine.CURRENTLY_CARD.user_choice = new_color[0]
         # machine.CURRENTLY_CARD.color = new_color[0]
         logging.debug(
             f'{players.get_ia_player_by_index(machine.INDEX_WHO_IS_PLAYING).get_player_name()} chose {new_color[0]}')
