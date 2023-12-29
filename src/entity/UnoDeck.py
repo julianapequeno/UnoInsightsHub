@@ -1,3 +1,4 @@
+from src.entity.ExtraCardsBehaviors import NumberNineHitTable
 from src.entity.Card import Card
 from src.entity.ActionCards import ActionCard
 from src.entity.CardsBehaviors import *
@@ -18,6 +19,8 @@ class UnoDeck:
         for color in self.colors:
             self.cards.append(Card(0, color))
             for i in range(1, 10):
+                if i == 9:
+                    self.cards.append(ActionCard(9, color, NumberNineHitTable))
                 self.cards.append(Card(i, color))
                 self.cards.append(Card(i, color))
 
