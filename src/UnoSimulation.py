@@ -29,7 +29,7 @@ class UnoSimulation:
     logging.basicConfig(
         level=logging.DEBUG,
         filemode='w',
-        filename="logs\loggingfile.log"
+        filename="loggingfile.log"
     )
 
     def __init__(self, input: SimulationInputData):
@@ -54,6 +54,9 @@ class UnoSimulation:
     def initialize_players_with_cards(self, player_cards):
         if self.IS_ANALYSING_DATA and (player_cards is not None):
             self.INITIAL_PLAYERS_CARDS = player_cards[:]
+        elif self.IS_ANALYSING_DATA and (player_cards is None):
+            logging.warning(
+                'Something is wrong. The model is not receiving the input correctly')
 
         i = 0
         for ia_player in self.IA_PLAYERS_CIRCULAR_VECTOR.vector:
