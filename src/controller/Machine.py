@@ -5,10 +5,13 @@ from src.entity.CardsBehaviors import ChangeColor
 
 
 class Machine:
+
     def __init__(self):
         self.uno_deck = UnoDeck()
         self.CURRENTLY_CARD: Card
         self.INDEX_WHO_IS_PLAYING = 0
+        self.SEVENCARDRUNNING = False
+        self.PLAYER_WHO_THROWED_SEVEN_CARD = None
 
     def reset_machine(self, is_analysis, players_hands_cards):
         self.uno_deck.reset(is_analysis, players_hands_cards)

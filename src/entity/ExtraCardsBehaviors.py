@@ -23,3 +23,17 @@ class NumberNineHitTable(Behavior):
 
         logging.debug(
             f'{player_who_hit_table_last_time.get_player_name()} hit the table last (+1)')
+
+
+class NumberSevenEverybodyOnMute(Behavior):
+    def execute(machine, players: CircularVector):
+        machine.SEVENCARDRUNNING = True
+
+        for player in players.vector:
+            number = random.random()
+            if number < 0.2:
+                player.get_player().add_cart_to_list(
+                    machine.take_new_card_from_deck())
+
+                logging.debug(
+                    f'{player.get_player_name()} spoke during a silence card (+1)')

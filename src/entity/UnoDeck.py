@@ -1,4 +1,4 @@
-from src.entity.ExtraCardsBehaviors import NumberNineHitTable
+from src.entity.ExtraCardsBehaviors import NumberNineHitTable, NumberSevenEverybodyOnMute
 from src.entity.Card import Card
 from src.entity.ActionCards import ActionCard
 from src.entity.CardsBehaviors import *
@@ -21,6 +21,8 @@ class UnoDeck:
             for i in range(1, 10):
                 if i == 9:
                     self.cards.append(ActionCard(9, color, NumberNineHitTable))
+                    self.cards.append(ActionCard(
+                        7, color, NumberSevenEverybodyOnMute))
                 self.cards.append(Card(i, color))
                 self.cards.append(Card(i, color))
 
@@ -94,3 +96,6 @@ class UnoDeck:
         if is_analysis and (players_hands_cards is not None):
             for player_input in players_hands_cards:
                 self.delete_cards_from_deck(player_input)
+
+    def default_seven_card(self):
+        return ActionCard(7,'default',NumberSevenEverybodyOnMute)
