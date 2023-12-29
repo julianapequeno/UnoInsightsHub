@@ -7,7 +7,7 @@ from src.entity.ActionCards import ActionCard
 
 
 class SimulationGenerator:
-    def __init__(self, number_of_players, n_cards_fixed_input: list):
+    def __init__(self, number_of_players, n_cards_fixed_input=None):
         self.PLAYERS = self.generating_players()
         self.number_of_players = number_of_players
         self.bot = Machine()
@@ -42,13 +42,23 @@ class SimulationGenerator:
             self.number_of_players
         )
 
-    def generating_uno_simulation(self):
+    def generating_analysis_uno_simulation(self):
         simulation_data = SimulationInputData(
             self.bot,
             self.PLAYERS,
             self.number_of_players,
             self.initial_players_cards.copy(),
             True,
+        )
+        return UnoSimulation(simulation_data)
+
+    def generating_model_uno_simulation(self):
+        simulation_data = SimulationInputData(
+            self.bot,
+            self.PLAYERS,
+            self.number_of_players,
+            self.initial_players_cards.copy(),
+            False,
         )
         return UnoSimulation(simulation_data)
 

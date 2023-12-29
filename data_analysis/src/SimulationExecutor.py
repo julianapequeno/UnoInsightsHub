@@ -24,7 +24,7 @@ class SimulationExecutor:
         self.simulation = SimulationGenerator(
             number_of_players=self.NUMBER_OF_PLAYERS, n_cards_fixed_input=self.FIXED_INDEX_PLAYERS_CARDS)
         self.simulation.generate_new_simulation_input_sample()
-        self.UNO = self.simulation.generating_uno_simulation()
+        self.UNO = self.simulation.generating_analysis_uno_simulation()
 
     def check_fixed_card(self):
         if self.HAVE_A_FIXED_INITIAL_CARD:
