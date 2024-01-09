@@ -27,8 +27,6 @@ class NumberNineHitTable(Behavior):
 
 class NumberSevenEverybodyOnMute(Behavior):
     def execute(machine, players: CircularVector):
-        machine.SEVENCARDRUNNING = True
-
         for player in players.vector:
             number = random.random()
             if number < 0.2:

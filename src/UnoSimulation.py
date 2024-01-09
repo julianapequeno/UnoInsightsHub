@@ -165,7 +165,9 @@ class UnoSimulation:
                         self.bot.PLAYER_WHO_THROWED_SEVEN_CARD = self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(
                             self.bot.INDEX_WHO_IS_PLAYING)
 
-                        logging.debug("Seven Card round had just began")
+                        self.bot.SEVENCARDRUNNING = True
+                        logging.debug(
+                            "The round for the card Seven has just begun")
 
                     card_thrown.execute_move(
                         self.bot, self.IA_PLAYERS_CIRCULAR_VECTOR)
@@ -182,7 +184,7 @@ class UnoSimulation:
         if self.bot.SEVENCARDRUNNING:
             if self.bot.PLAYER_WHO_THROWED_SEVEN_CARD == self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(self.bot.INDEX_WHO_IS_PLAYING):
                 self.bot.SEVENCARDRUNNING = False
-                logging.debug('Seven Card round was finished')
+                logging.debug('The round for the card Seven is finished')
             else:
                 self.bot.uno_deck.default_seven_card().execute_move(
                     self.bot, self.IA_PLAYERS_CIRCULAR_VECTOR)
