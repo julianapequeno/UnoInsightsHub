@@ -37,6 +37,7 @@ class UnoSimulation:
         self.number_of_players = input.number_of_players
         self.IS_ANALYSING_DATA = input.is_analysing_data
         self.verify_initial_parameters()
+        self.quantity_of_rounds = 0
 
         if self.STATUS_CAN_PLAY:
             self.IA_PLAYERS_CIRCULAR_VECTOR = input.round_players
@@ -114,7 +115,9 @@ class UnoSimulation:
     def round(
         self, first_card=None, input_players_cards_new_round=None
     ) -> SimulationOutputData:
+
         self.first_card = first_card
+
         logging.info('Starting new round...')
         logging.info(f'>> Number of players {self.number_of_players} players ')
         logging.info(f'IS_ANALYSING_DATA = {self.IS_ANALYSING_DATA}')
@@ -150,7 +153,19 @@ class UnoSimulation:
                             f'{self.CURRENTLY_PLAYER.get_player_name()} has won')
 
                         name = self.CURRENTLY_PLAYER.get_player_name()
+
+                        logging.info(
+                            f"This game had {self.quantity_of_rounds} rounds")
+
                         return self.simulation_data(name)
+
+                    self.verify_seven_card_running()
+
+                    if card_thrown.rank == 7 and not self.bot.SEVENCARDRUNNING:
+                        self.bot.PLAYER_WHO_THROWED_SEVEN_CARD = self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(
+                            self.bot.INDEX_WHO_IS_PLAYING)
+
+                        logging.debug("Seven Card round had just began")
 
                     card_thrown.execute_move(
                         self.bot, self.IA_PLAYERS_CIRCULAR_VECTOR)
@@ -158,8 +173,19 @@ class UnoSimulation:
                     logging.info(
                         f'{self.CURRENTLY_PLAYER.get_player_name()}[{len(self.CURRENTLY_PLAYER.get_player_cards())}c] has passed their turn.')
                 self.bot.INDEX_WHO_IS_PLAYING += 1
+
+                self.quantity_of_rounds += 1
         else:
             return None
+
+    def verify_seven_card_running(self):
+        if self.bot.SEVENCARDRUNNING:
+            if self.bot.PLAYER_WHO_THROWED_SEVEN_CARD == self.IA_PLAYERS_CIRCULAR_VECTOR.get_ia_player_by_index(self.bot.INDEX_WHO_IS_PLAYING):
+                self.bot.SEVENCARDRUNNING = False
+                logging.debug('Seven Card round was finished')
+            else:
+                self.bot.uno_deck.default_seven_card().execute_move(
+                    self.bot, self.IA_PLAYERS_CIRCULAR_VECTOR)
 
     def player_has_won(self):
         return self.bot.winner(self.CURRENTLY_PLAYER.get_player_cards())

@@ -35,7 +35,7 @@ class UnoDeck:
             self.cards.append(ActionCard("+", color, DrawTwoCards))
             self.cards.append(ActionCard("+", color, DrawTwoCards))
             self.cards.append(ActionCard("W", color, DrawFourCards))
-            self.cards.append(WildCard("C", color, ChangeColor))
+            self.cards.append(WildCard("C", "joker", ChangeColor))
 
         self.CARDS_DEFAULT_DECK = self.cards.copy()
 
@@ -98,4 +98,4 @@ class UnoDeck:
                 self.delete_cards_from_deck(player_input)
 
     def default_seven_card(self):
-        return ActionCard(7,'default',NumberSevenEverybodyOnMute)
+        return ActionCard(7, 'default', NumberSevenEverybodyOnMute)
